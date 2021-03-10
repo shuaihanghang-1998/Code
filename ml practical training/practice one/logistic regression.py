@@ -2,6 +2,7 @@
 from numpy import *
 import pandas as pd
 import matplotlib.pyplot as plt
+from math import exp
 #sigmoid函数
 def sigmoid(inX):
     return 1.0/(1+exp(-inX))
