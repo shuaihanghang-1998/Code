@@ -39,7 +39,7 @@ def randomgradAscent(dataMat, label, numIter=50):
     return weights
 
 #画图
-def plotBestFit(weights):
+def plotBestFit(weights1,weights2,weights3):
     m = shape(dataMat)[0]
     xcord1 = []
     ycord1 = []
@@ -57,10 +57,16 @@ def plotBestFit(weights):
     ax.scatter(xcord1, ycord1, s=30, c='red', marker='s')
     ax.scatter(xcord2, ycord2, c='green')
     x = arange(0.2, 0.8, 0.1)
-    y = array((-weights[0] - weights[1] * x)/weights[2])
+    y1 = array((-weights1[0] - weights1[1] * x)/weights1[2])
+    y2 = array((-weights2[0] - weights2[1] * x)/weights2[2])    
+    y3 = array((-weights3[0] - weights3[1] * x)/weights3[2])
+    
     plt.sca(ax)
     #plt.plot(x, y[0])   #gradAscent
-    plt.plot(x, y)  #randmgradAscent
+    plt.plot(x, y1, 'r-',label=u'numIter=50')  #randmgradAscent
+    plt.plot(x, y2, 'b-', label=u'numIter=20')
+    plt.plot(x, y3, 'g-', label=u'numIter=10')
+    plt.legend(loc='upper right')
     plt.xlabel('density')
     plt.ylabel('ratio_sugar')
     #plt.title('gradAscent logistic regression')
@@ -74,6 +80,8 @@ m, n = shape(df)
 df['idx'] = ones((m, 1))
 dataMat = array(df[['idx', 'idensity', 'ratio_sugar']].values[:, :])
 labelMat = mat(df['label'].values[:]).transpose()
-weights = gradAscent(dataMat, labelMat)
-#weights = randomgradAscent(dataMat, labelMat, numIter=50)
-plotBestFit(weights)
+#weights = gradAscent(dataMat, labelMat)
+weights1 = randomgradAscent(dataMat, labelMat, numIter=50)
+weights2 = randomgradAscent(dataMat, labelMat, numIter=20)
+weights3 = randomgradAscent(dataMat, labelMat, numIter=10)
+plotBestFit(weights1,weights2,weights3)
