@@ -74,9 +74,9 @@ def plot_hyperplane(clf, X, y,
 if __name__ == '__main__':
     #分别生成第一类，第二类，第三类数据
     #补充代码
-    dataArr, labelArr = mock_data(point_count=3, point_type=1)
+    #dataArr, labelArr = mock_data(point_count=3, point_type=1)
     #dataArr, labelArr = mock_data(point_count=100, point_type=2)
-    #dataArr, labelArr = mock_data(point_count=100, point_type=3)
+    dataArr, labelArr = mock_data(point_count=100, point_type=3)
     x_train, x_test, y_train, y_test = train_test_split(dataArr, labelArr, train_size=0.8, test_size=0.2, random_state=1)
     #定义SVM分类器
     #补充代码
