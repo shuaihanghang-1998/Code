@@ -13,7 +13,6 @@ from sklearn.ensemble import VotingClassifier
 iris = datasets.load_iris()
 X = iris.data[:, [0, 2]]
 y = iris.target
-print('hhhhhhhh!!!!!!!', X.shape)
 # Training classifiers
 clf = SVC(kernel='rbf',C=1,decision_function_shape='ovr')
 
