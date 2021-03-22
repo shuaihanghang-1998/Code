@@ -13,9 +13,9 @@ from sklearn.ensemble import VotingClassifier
 iris = datasets.load_iris()
 X = iris.data[:, [0, 2]]
 y = iris.target
-
+print('hhhhhhhh!!!!!!!', X.shape)
 # Training classifiers
-clf = SVC(gamma=.1, kernel='rbf', probability=True)
+clf = SVC(kernel='rbf',C=1,decision_function_shape='ovr')
 
 x_train, x_test, y_train, y_test = train_test_split(X, y, train_size=0.8, test_size=0.2, random_state=1)
 clf.fit(x_train, y_train)
