@@ -37,7 +37,14 @@ plt.contourf(xx, yy, Z, cmap='hot', alpha=0.5)
 plt.scatter(x_train[:,0],x_train[:,1],c=y_train)
 
 sv = clf.support_vectors_
-plt.scatter(sv[:, 0], sv[:, 1],s=100, c='',edgecolors='r',  marker='o', alpha=0.5, linewidths=1)
+plt.scatter(sv[:, 0], 
+            sv[:, 1],
+            s=100, 
+            c='',
+            edgecolors='r',  
+            marker='o',
+            alpha=0.5, 
+            linewidths=1)
 
 y_test = y_test.reshape(-1)
 y_test_hat = clf.predict(x_test)

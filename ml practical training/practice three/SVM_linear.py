@@ -62,7 +62,7 @@ def plot_point(dataArr, labelArr, Support_vector_index, W=0, b=0):
 if __name__ == '__main__':
     #分别生成第一类，第二类，第三类数据
     #补充代码
-    dataArr, labelArr=mock_data(point_count=100, point_type=1)
+    dataArr, labelArr=mock_data(point_count=100, point_type=3)
     x_train, x_test, y_train, y_test = train_test_split(dataArr, labelArr, train_size=0.8, test_size=0.2, random_state=1)
     #定义SVM分类器，核函数定义为线性核函数，其他参数使用默认值
     #补充代码
