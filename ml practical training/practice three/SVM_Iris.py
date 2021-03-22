@@ -2,7 +2,7 @@ from itertools import product
 
 import numpy as np
 import matplotlib.pyplot as plt
-
+from sklearn.model_selection import train_test_split
 from sklearn import datasets
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.neighbors import KNeighborsClassifier
