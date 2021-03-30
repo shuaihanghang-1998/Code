@@ -50,9 +50,10 @@ for ax in axes:
 print(f"Classification report for classifier {clf}:\n"
       f"{metrics.classification_report(y_test, predicted)}\n")
 
+'''
 #plot a confusion matrix of the true digit values and the predicted digit values.
 disp = metrics.plot_confusion_matrix(clf, X_test, y_test)
 disp.figure_.suptitle("Confusion Matrix")
 print(f"Confusion matrix:\n{disp.confusion_matrix}")
-
+'''
 plt.show()
