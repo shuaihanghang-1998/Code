@@ -49,10 +49,12 @@ test_x = torch.from_numpy(test_X)
 # 定义模型
 
 class RNN(nn.Module):
-    def __init__(self, input_size, hidden_size, output_size=1, num_layers=2):
+    def __init__(self, input_size, hidden_size, output_size=1, num_layers=5):
         super(RNN, self).__init__()
         
-        self.rnn = nn.RNN(input_size, hidden_size, num_layers) # rnn
+        #self.rnn = nn.LSTM(input_size, hidden_size, num_layers) # LSTM
+        self.rnn = nn.RNN(input_size, hidden_size, num_layers) # RNN
+        #self.rnn = nn.GRU(input_size, hidden_size, num_layers) # GRU
         self.linear = nn.Linear(hidden_size, output_size) # 回归
         
     def forward(self, x):
@@ -69,7 +71,7 @@ net = RNN(3, 20)
 criterion = nn.MSELoss()
 optimizer = torch.optim.Adam(net.parameters(), lr=1e-2)
 # 开始训练
-for e in range(1000):
+for e in range(500):
     var_x = Variable(train_x)
     var_y = Variable(train_y)
     # 前向传播
