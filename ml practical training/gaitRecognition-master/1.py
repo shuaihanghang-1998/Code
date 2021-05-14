@@ -10,7 +10,7 @@ import matplotlib.pyplot as plt
 
 FLAGS = tf.flags.FLAGS
 
-tf.app.flags.DEFINE_integer("epoch", 1, "epoch of training step")
+tf.app.flags.DEFINE_integer("epoch", 10, "epoch of training step")
 tf.app.flags.DEFINE_integer("batch_size", 128, "mini_batch_size")
 
 def get_batches(X, y):

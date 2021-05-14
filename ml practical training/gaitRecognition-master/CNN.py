@@ -55,34 +55,28 @@ class CNN(object):
             w_conv1 = tf.Variable(self.weight_variable([5, 6, 1, 32], 1.0), name="weights", dtype=tf.float32)
             b_conv1 = tf.Variable(self.bias_variable([32]), name="blases", dtype=tf.float32)
             h_conv1 = tf.nn.relu(self.conv2d(self.x_holder, w_conv1) + b_conv1, name="conv1")
-
         # 第一层池化层
         with tf.variable_scope('pooling1_lrn') as scope:
             pool1 = self.max_pool_2x2(h_conv1, "pooling1")
             norm1 = tf.nn.lrn(pool1, depth_radius=4, bias=1.0, alpha=0.001 / 9.0, beta=0.75, name="norm1")
-
         # 第2层卷积层
         with tf.variable_scope('conv1') as scope:
             w_conv2 = tf.Variable(self.weight_variable([5, 6, 32, 64], 1.0), name="weights", dtype=tf.float32)
             b_conv2 = tf.Variable(self.bias_variable([64]), name="blases", dtype=tf.float32)
             h_conv2 = tf.nn.relu(self.conv2d(norm1, w_conv2) + b_conv2, name="conv1")
-
         # 第2层池化层
         with tf.variable_scope('pooling1_lrn') as scope:
             pool2 = self.max_pool_2x2(h_conv2, "pooling1")
             norm2 = tf.nn.lrn(pool2, depth_radius=4, bias=1.0, alpha=0.001 / 9.0, beta=0.75, name="norm1")
-
         # 第3层卷积层
         with tf.variable_scope('conv1') as scope:
             w_conv3 = tf.Variable(self.weight_variable([5, 6, 64, 128], 1.0), name="weights", dtype=tf.float32)
             b_conv3 = tf.Variable(self.bias_variable([128]), name="blases", dtype=tf.float32)
             h_conv3 = tf.nn.relu(self.conv2d(norm2, w_conv3) + b_conv3, name="conv1")
-
         # 第3层池化层
         with tf.variable_scope('pooling1_lrn') as scope:
             pool3 = self.max_pool_2x2(h_conv3, "pooling1")
             norm3 = tf.nn.lrn(pool3, depth_radius=4, bias=1.0, alpha=0.001 / 9.0, beta=0.75, name="norm1")
-
         # 全连接层
         with tf.variable_scope('local3') as scope:
             reshape = tf.reshape(norm3, shape=[-1, 128*2*6])
