@@ -1,0 +1,712 @@
+deep residu learn imag recognit kaim xiangyu zhang shaoq ren jian sun microsoft research { kahe , v-xiangz , v-shren , jiansun } @ microsoft.com abstract deeper neural network difficult train .
+present residu learn framework eas train network substanti deeper use previous .
+explicit reformul layer learn residu function refer layer input , instead learn unreferenc function .
+provid comprehens empir evid show residu network easier optim , gain accuraci consider increas depth .
+imagenet dataset evalu residu net depth 152 layers—8× deeper vgg net [ 41 ] still lower complex .
+ensembl residu net achiev 3.57 % error imagenet test set .
+result 1st place ilsvrc 2015 classif task .
+also present analysi cifar-10 100 1000 layer .
+depth represent central import mani visual recognit task .
+sole due extrem deep represent , obtain 28 % relat improv coco object detect dataset .
+deep residu net foundat submiss ilsvrc & coco 2015 competitions1 , also 1st place task imagenet detect , imagenet local , coco detect , coco segment .
+1 .
+introduct deep convolut neural network [ 22 , 21 ] led seri breakthrough imag classif [ 21 , 50 , 40 ] .
+deep network natur integr low/mid/highlevel featur [ 50 ] classifi end-to-end multilay fashion , “ level ” featur enrich number stack layer ( depth ) .
+recent evid [ 41 , 44 ] reveal network depth crucial import , lead result [ 41 , 44 , 13 , 16 ] challeng imagenet dataset [ 36 ] exploit “ deep ” [ 41 ] model , depth sixteen [ 41 ] thirti [ 16 ] .
+mani nontrivi visual recognit task [ 8 , 12 , 7 , 32 , 27 ] also 1http : //image-net.org/challenges/lsvrc/2015/ http : //mscoco.org/dataset/ # detections-challenge2015 .
+0 1 2 3 4 5 6 0 10 20 iter .
+( 1e4 ) train error ( % ) 0 1 2 3 4 5 6 0 10 20 iter .
+( 1e4 ) test error ( % ) 56-layer 20-layer 56-layer 20-layer figur 1 .
+train error ( left ) test error ( right ) cifar-10 20-layer 56-layer “ plain ” network .
+deeper network higher train error , thus test error .
+similar phenomena imagenet present fig .
+4. great benefit deep model .
+driven signific depth , question aris : learn better network easi stack layer ?
+obstacl answer question notori problem vanishing/explod gradient [ 1 , 9 ] , hamper converg begin .
+problem , howev , larg address normal initi [ 23 , 9 , 37 , 13 ] intermedi normal layer [ 16 ] , enabl network ten layer start converg stochast gradient descent ( sgd ) backpropag [ 22 ] .
+deeper network abl start converg , degrad problem expos : network depth increas , accuraci get satur ( might unsurpris ) degrad rapid .
+unexpect , degrad caus overfit , ad layer suitabl deep model lead higher train error , report [ 11 , 42 ] thorough verifi experi .
+fig .
+1 show typic exampl .
+degrad ( train accuraci ) indic system similar easi optim .
+let us consid shallow architectur deeper counterpart add layer onto .
+exist solut construct deeper model : ad layer ident map , layer copi learn shallow model .
+exist construct solut indic deeper model produc higher train error shallow counterpart .
+experi show current solver hand unabl find solut 1 arxiv:1512.03385v1 [ cs.cv ] 10 dec 2015 ident weight layer weight layer relu relu f ( x ) + x x f ( x ) x figur 2 .
+residu learn : build block .
+compar good better construct solut ( unabl feasibl time ) .
+paper , address degrad problem introduc deep residu learn framework .
+instead hope stack layer direct fit desir map , explicit let layer fit residu map .
+formal , denot desir map h ( x ) , let stack nonlinear layer fit anoth map f ( x ) : = h ( x ) −x .
+origin map recast f ( x ) +x .
+hypothes easier optim residu map optim origin , unreferenc map .
+extrem , ident map optim , would easier push residu zero fit ident map stack nonlinear layer .
+formul f ( x ) +x realiz feedforward neural network “ shortcut connect ” ( fig .
+2 ) .
+shortcut connect [ 2 , 34 , 49 ] skip one layer .
+case , shortcut connect simpli perform ident map , output ad output stack layer ( fig .
+2 ) .
+ident shortcut connect add neither extra paramet comput complex .
+entir network still train end-to-end sgd backpropag , easili implement use common librari ( e.g.
+, caff [ 19 ] ) without modifi solver .
+present comprehens experi imagenet [ 36 ] show degrad problem evalu method .
+show : 1 ) extrem deep residu net easi optim , counterpart “ plain ” net ( simpli stack layer ) exhibit higher train error depth increas ; 2 ) deep residu net easili enjoy accuraci gain great increas depth , produc result substanti better previous network .
+similar phenomena also shown cifar-10 set [ 20 ] , suggest optim difficulti effect method akin particular dataset .
+present success train model dataset 100 layer , explor model 1000 layer .
+imagenet classif dataset [ 36 ] , obtain excel result extrem deep residu net .
+152- layer residu net deepest network ever present imagenet , still lower complex vgg net [ 41 ] .
+ensembl 3.57 % top-5 error imagenet test set , 1st place ilsvrc 2015 classif competit .
+extrem deep represent also excel general perform recognit task , lead us win 1st place : imagenet detect , imagenet local , coco detect , coco segment ilsvrc & coco 2015 competit .
+strong evid show residu learn principl generic , expect applic vision non-vis problem .
+2 .
+relat work residu represent .
+imag recognit , vlad [ 18 ] represent encod residu vector respect dictionari , fisher vector [ 30 ] formul probabilist version [ 18 ] vlad .
+power shallow represent imag retriev classif [ 4 , 48 ] .
+vector quantize , encod residu vector [ 17 ] shown effect encod origin vector .
+low-level vision comput graphic , solv partial differenti equat ( pdes ) , wide use multigrid method [ 3 ] reformul system subproblem multipl scale , subproblem respons residu solut coarser finer scale .
+altern multigrid hierarch basi precondit [ 45 , 46 ] , reli variabl repres residu vector two scale .
+shown [ 3 , 45 , 46 ] solver converg much faster standard solver unawar residu natur solut .
+method suggest good reformul precondit simplifi optim .
+shortcut connect .
+practic theori lead shortcut connect [ 2 , 34 , 49 ] studi long time .
+earli practic train multi-lay perceptron ( mlps ) add linear layer connect network input output [ 34 , 49 ] .
+[ 44 , 24 ] , intermedi layer direct connect auxiliari classifi address vanishing/explod gradient .
+paper [ 39 , 38 , 31 , 47 ] propos method center layer respons , gradient , propag error , implement shortcut connect .
+[ 44 ] , “ incept ” layer compos shortcut branch deeper branch .
+concurr work , “ highway network ” [ 42 , 43 ] present shortcut connect gate function [ 15 ] .
+gate data-depend paramet , contrast ident shortcut parameter-fre .
+gate shortcut “ close ” ( approach zero ) , layer highway network repres non-residu function .
+contrari , formul alway learn residu function ; ident shortcut never close , inform alway pass , addit residu function learn .
+addit , high- 2 way network demonstr accuraci gain extrem increas depth ( e.g.
+, 100 layer ) .
+3 .
+deep residu learn 3.1 .
+residu learn let us consid h ( x ) map fit stack layer ( necessarili entir net ) , x denot input first layer .
+one hypothes multipl nonlinear layer asymptot approxim complic functions2 , equival hypothes asymptot approxim residu function , i.e.
+, h ( x ) − x ( assum input output dimens ) .
+rather expect stack layer approxim h ( x ) , explicit let layer approxim residu function f ( x ) : = h ( x ) − x .
+origin function thus becom f ( x ) +x .
+although form abl asymptot approxim desir function ( hypothes ) , eas learn might differ .
+reformul motiv counterintuit phenomena degrad problem ( fig .
+1 , left ) .
+discuss introduct , ad layer construct ident map , deeper model train error greater shallow counterpart .
+degrad problem suggest solver might difficulti approxim ident map multipl nonlinear layer .
+residu learn reformul , ident map optim , solver may simpli drive weight multipl nonlinear layer toward zero approach ident map .
+real case , unlik ident map optim , reformul may help precondit problem .
+optim function closer ident map zero map , easier solver find perturb refer ident map , learn function new one .
+show experi ( fig .
+7 ) learn residu function general small respons , suggest ident map provid reason precondit .
+3.2 .
+ident map shortcut adopt residu learn everi stack layer .
+build block shown fig .
+2 .
+formal , paper consid build block defin : = f ( x , { wi } ) + x .
+( 1 ) x input output vector layer consid .
+function f ( x , { wi } ) repres residu map learn .
+exampl fig .
+2 two layer , f = w2σ ( w1x ) σ denot 2this hypothesi , howev , still open question .
+see [ 28 ] .
+relu [ 29 ] bias omit simplifi notat .
+oper f + x perform shortcut connect element-wis addit .
+adopt second nonlinear addit ( i.e.
+, σ ( ) , see fig .
+2 ) .
+shortcut connect eqn .
+( 1 ) introduc neither extra paramet comput complex .
+attract practic also import comparison plain residu network .
+fair compar plain/residu network simultan number paramet , depth , width , comput cost ( except neglig element-wis addit ) .
+dimens x f must equal eqn.
+( 1 ) .
+case ( e.g.
+, chang input/output channel ) , perform linear project ws shortcut connect match dimens : = f ( x , { wi } ) + wsx .
+( 2 ) also use squar matrix ws eqn.
+( 1 ) .
+show experi ident map suffici address degrad problem econom , thus ws use match dimens .
+form residu function f flexibl .
+experi paper involv function f two three layer ( fig .
+5 ) , layer possibl .
+f singl layer , eqn .
+( 1 ) similar linear layer : = w1x + x , observ advantag .
+also note although notat fully-connect layer simplic , applic convolut layer .
+function f ( x , { wi } ) repres multipl convolut layer .
+element-wis addit perform two featur map , channel channel .
+3.3 .
+network architectur test various plain/residu net , observ consist phenomena .
+provid instanc discuss , describ two model imagenet follow .
+plain network .
+plain baselin ( fig .
+3 , middl ) main inspir philosophi vgg net [ 41 ] ( fig .
+3 , left ) .
+convolut layer 3×3 filter follow two simpl design rule : ( ) output featur map size , layer number filter ; ( ii ) featur map size halv , number filter doubl preserv time complex per layer .
+perform downsampl direct convolut layer stride 2 .
+network end global averag pool layer 1000-way fully-connect layer softmax .
+total number weight layer 34 fig .
+3 ( middl ) .
+worth notic model fewer filter lower complex vgg net [ 41 ] ( fig .
+3 , left ) .
+34- layer baselin 3.6 billion flop ( multiply-add ) , 18 % vgg-19 ( 19.6 billion flop ) .
+3 7x7 conv , 64 , /2 pool , /2 3x3 conv , 64 3x3 conv , 64 3x3 conv , 64 3x3 conv , 64 3x3 conv , 64 3x3 conv , 64 3x3 conv , 128 , /2 3x3 conv , 128 3x3 conv , 128 3x3 conv , 128 3x3 conv , 128 3x3 conv , 128 3x3 conv , 128 3x3 conv , 128 3x3 conv , 256 , /2 3x3 conv , 256 3x3 conv , 256 3x3 conv , 256 3x3 conv , 256 3x3 conv , 256 3x3 conv , 256 3x3 conv , 256 3x3 conv , 256 3x3 conv , 256 3x3 conv , 256 3x3 conv , 256 3x3 conv , 512 , /2 3x3 conv , 512 3x3 conv , 512 3x3 conv , 512 3x3 conv , 512 3x3 conv , 512 avg pool fc 1000 imag 3x3 conv , 512 3x3 conv , 64 3x3 conv , 64 pool , /2 3x3 conv , 128 3x3 conv , 128 pool , /2 3x3 conv , 256 3x3 conv , 256 3x3 conv , 256 3x3 conv , 256 pool , /2 3x3 conv , 512 3x3 conv , 512 3x3 conv , 512 pool , /2 3x3 conv , 512 3x3 conv , 512 3x3 conv , 512 3x3 conv , 512 pool , /2 fc 4096 fc 4096 fc 1000 imag output size : 112 output size : 224 output size : 56 output size : 28 output size : 14 output size : 7 output size : 1 vgg-19 34-layer plain 7x7 conv , 64 , /2 pool , /2 3x3 conv , 64 3x3 conv , 64 3x3 conv , 64 3x3 conv , 64 3x3 conv , 64 3x3 conv , 64 3x3 conv , 128 , /2 3x3 conv , 128 3x3 conv , 128 3x3 conv , 128 3x3 conv , 128 3x3 conv , 128 3x3 conv , 128 3x3 conv , 128 3x3 conv , 256 , /2 3x3 conv , 256 3x3 conv , 256 3x3 conv , 256 3x3 conv , 256 3x3 conv , 256 3x3 conv , 256 3x3 conv , 256 3x3 conv , 256 3x3 conv , 256 3x3 conv , 256 3x3 conv , 256 3x3 conv , 512 , /2 3x3 conv , 512 3x3 conv , 512 3x3 conv , 512 3x3 conv , 512 3x3 conv , 512 avg pool fc 1000 imag 34-layer residu figur 3 .
+exampl network architectur imagenet .
+left : vgg-19 model [ 41 ] ( 19.6 billion flop ) refer .
+middl : plain network 34 paramet layer ( 3.6 billion flop ) .
+right : residu network 34 paramet layer ( 3.6 billion flop ) .
+dot shortcut increas dimens .
+tabl 1 show detail variant .
+residu network .
+base plain network , insert shortcut connect ( fig .
+3 , right ) turn network counterpart residu version .
+ident shortcut ( eqn .
+( 1 ) ) direct use input output dimens ( solid line shortcut fig .
+3 ) .
+dimens increas ( dot line shortcut fig .
+3 ) , consid two option : ( ) shortcut still perform ident map , extra zero entri pad increas dimens .
+option introduc extra paramet ; ( b ) project shortcut eqn .
+( 2 ) use match dimens ( done 1×1 convolut ) .
+option , shortcut go across featur map two size , perform stride 2 .
+3.4 .
+implement implement imagenet follow practic [ 21 , 41 ] .
+imag resiz shorter side random sampl [ 256 , 480 ] scale augment [ 41 ] .
+224×224 crop random sampl imag horizont flip , per-pixel mean subtract [ 21 ] .
+standard color augment [ 21 ] use .
+adopt batch normal ( bn ) [ 16 ] right convolut activ , follow [ 16 ] .
+initi weight [ 13 ] train plain/residu net scratch .
+use sgd mini-batch size 256 .
+learn rate start 0.1 divid 10 error plateaus , model train 60 × 104 iter .
+use weight decay 0.0001 momentum 0.9 .
+use dropout [ 14 ] , follow practic [ 16 ] .
+test , comparison studi adopt standard 10-crop test [ 21 ] .
+best result , adopt fullyconvolut form [ 41 , 13 ] , averag score multipl scale ( imag resiz shorter side { 224 , 256 , 384 , 480 , 640 } ) .
+4 .
+experi 4.1 .
+imagenet classif evalu method imagenet 2012 classifi- cation dataset [ 36 ] consist 1000 class .
+model train 1.28 million train imag , evalu 50k valid imag .
+also obtain final result 100k test imag , report test server .
+evalu top-1 top-5 error rate .
+plain network .
+first evalu 18-layer 34-layer plain net .
+34-layer plain net fig .
+3 ( middl ) .
+18-layer plain net similar form .
+see tabl 1 detail architectur .
+result tabl 2 show deeper 34-layer plain net higher valid error shallow 18-layer plain net .
+reveal reason , fig .
+4 ( left ) compar training/valid error train procedur .
+observ degrad problem - 4 layer name output size 18-layer 34-layer 50-layer 101-layer 152-layer conv1 112×112 7×7 , 64 , stride 2 conv2 x 56×56 3×3 max pool , stride 2  3×3 , 64 3×3 , 64  ×2  3×3 , 64 3×3 , 64  ×3   1×1 , 64 3×3 , 64 1×1 , 256  ×3   1×1 , 64 3×3 , 64 1×1 , 256  ×3   1×1 , 64 3×3 , 64 1×1 , 256  ×3 conv3 x 28×28  3×3 , 128 3×3 , 128  ×2  3×3 , 128 3×3 , 128  ×4   1×1 , 128 3×3 , 128 1×1 , 512  ×4   1×1 , 128 3×3 , 128 1×1 , 512  ×4   1×1 , 128 3×3 , 128 1×1 , 512  ×8 conv4 x 14×14  3×3 , 256 3×3 , 256  ×2  3×3 , 256 3×3 , 256  ×6   1×1 , 256 3×3 , 256 1×1 , 1024  ×6   1×1 , 256 3×3 , 256 1×1 , 1024  ×23   1×1 , 256 3×3 , 256 1×1 , 1024  ×36 conv5 x 7×7  3×3 , 512 3×3 , 512  ×2  3×3 , 512 3×3 , 512  ×3   1×1 , 512 3×3 , 512 1×1 , 2048  ×3   1×1 , 512 3×3 , 512 1×1 , 2048  ×3   1×1 , 512 3×3 , 512 1×1 , 2048  ×3 1×1 averag pool , 1000-d fc , softmax flop 1.8×109 3.6×109 3.8×109 7.6×109 11.3×109 tabl 1 .
+architectur imagenet .
+build block shown bracket ( see also fig .
+5 ) , number block stack .
+downsampl perform conv3 1 , conv4 1 , conv5 1 stride 2 .
+0 10 20 30 40 50 20 30 40 50 60 iter .
+( 1e4 ) error ( % ) plain-18 plain-34 0 10 20 30 40 50 20 30 40 50 60 iter .
+( 1e4 ) error ( % ) resnet-18 resnet-34 18-layer 34-layer 18-layer 34-layer figur 4 .
+train imagenet .
+thin curv denot train error , bold curv denot valid error center crop .
+left : plain network 18 34 layer .
+right : resnet 18 34 layer .
+plot , residu network extra paramet compar plain counterpart .
+plain resnet 18 layer 27.94 27.88 34 layer 28.54 25.03 tabl 2 .
+top-1 error ( % , 10-crop test ) imagenet valid .
+resnet extra paramet compar plain counterpart .
+fig .
+4 show train procedur .
+34-layer plain net higher train error throughout whole train procedur , even though solut space 18-layer plain network subspac 34-layer one .
+argu optim difficulti unlik caus vanish gradient .
+plain network train bn [ 16 ] , ensur forward propag signal non-zero varianc .
+also verifi backward propag gradient exhibit healthi norm bn .
+neither forward backward signal vanish .
+fact , 34-layer plain net still abl achiev competit accuraci ( tabl 3 ) , suggest solver work extent .
+conjectur deep plain net may exponenti low converg rate , impact reduc train error3 .
+reason optim difficulti studi futur .
+residu network .
+next evalu 18-layer 34- layer residu net ( resnet ) .
+baselin architectur plain net , expect shortcut connect ad pair 3×3 filter fig .
+3 ( right ) .
+first comparison ( tabl 2 fig .
+4 right ) , use ident map shortcut zero-pad increas dimens ( option ) .
+extra paramet compar plain counterpart .
+three major observ tabl 2 fig .
+4 .
+first , situat revers residu learn – 34-layer resnet better 18-layer resnet ( 2.8 % ) .
+import , 34-layer resnet exhibit consider lower train error generaliz valid data .
+indic degrad problem well address set manag obtain accuraci gain increas depth .
+second , compar plain counterpart , 34-layer 3we experi train iter ( 3× ) still observ degrad problem , suggest problem feasibl address simpli use iter .
+5 model top-1 err .
+top-5 err .
+vgg-16 [ 41 ] 28.07 9.33 googlenet [ 44 ] - 9.15 prelu-net [ 13 ] 24.27 7.38 plain-34 28.54 10.02 resnet-34 25.03 7.76 resnet-34 b 24.52 7.46 resnet-34 c 24.19 7.40 resnet-50 22.85 6.71 resnet-101 21.75 6.05 resnet-152 21.43 5.71 tabl 3 .
+error rate ( % , 10-crop test ) imagenet valid .
+vgg-16 base test .
+resnet-50/101/152 option b use project increas dimens .
+method top-1 err .
+top-5 err .
+vgg [ 41 ] ( ilsvrc ’ 14 ) - 8.43† googlenet [ 44 ] ( ilsvrc ’ 14 ) - 7.89 vgg [ 41 ] ( v5 ) 24.4 7.1 prelu-net [ 13 ] 21.59 5.71 bn-incept [ 16 ] 21.99 5.81 resnet-34 b 21.84 5.71 resnet-34 c 21.53 5.60 resnet-50 20.74 5.25 resnet-101 19.87 4.60 resnet-152 19.38 4.49 tabl 4 .
+error rate ( % ) single-model result imagenet valid set ( except † report test set ) .
+method top-5 err .
+( test ) vgg [ 41 ] ( ilsvrc ’ 14 ) 7.32 googlenet [ 44 ] ( ilsvrc ’ 14 ) 6.66 vgg [ 41 ] ( v5 ) 6.8 prelu-net [ 13 ] 4.94 bn-incept [ 16 ] 4.82 resnet ( ilsvrc ’ 15 ) 3.57 tabl 5 .
+error rate ( % ) ensembl .
+top-5 error test set imagenet report test server .
+resnet reduc top-1 error 3.5 % ( tabl 2 ) , result success reduc train error ( fig .
+4 right vs. left ) .
+comparison verifi effect residu learn extrem deep system .
+last , also note 18-layer plain/residu net compar accur ( tabl 2 ) , 18-layer resnet converg faster ( fig .
+4 right vs. left ) .
+net “ deep ” ( 18 layer ) , current sgd solver still abl find good solut plain net .
+case , resnet eas optim provid faster converg earli stage .
+ident vs .
+project shortcut .
+shown 3x3 , 64 1x1 , 64 relu 1x1 , 256 relu relu 3x3 , 64 3x3 , 64 relu relu 64-d 256-d figur 5 .
+deeper residu function f imagenet .
+left : build block ( 56×56 featur map ) fig .
+3 resnet- 34 .
+right : “ bottleneck ” build block resnet-50/101/152 .
+parameter-fre , ident shortcut help train .
+next investig project shortcut ( eqn.
+( 2 ) ) .
+tabl 3 compar three option : ( ) zero-pad shortcut use increas dimens , shortcut parameterfre ( tabl 2 fig .
+4 right ) ; ( b ) project shortcut use increas dimens , shortcut ident ; ( c ) shortcut project .
+tabl 3 show three option consider better plain counterpart .
+b slight better .
+argu zero-pad dimens inde residu learn .
+c margin better b , attribut extra paramet introduc mani ( thirteen ) project shortcut .
+small differ among a/b/c indic project shortcut essenti address degrad problem .
+use option c rest paper , reduc memory/tim complex model size .
+ident shortcut particular import increas complex bottleneck architectur introduc .
+deeper bottleneck architectur .
+next describ deeper net imagenet .
+concern train time afford , modifi build block bottleneck design4 .
+residu function f , use stack 3 layer instead 2 ( fig .
+5 ) .
+three layer 1×1 , 3×3 , 1×1 convolut , 1×1 layer respons reduc increas ( restor ) dimens , leav 3×3 layer bottleneck smaller input/output dimens .
+fig .
+5 show exampl , design similar time complex .
+parameter-fre ident shortcut particular import bottleneck architectur .
+ident shortcut fig .
+5 ( right ) replac project , one show time complex model size doubl , shortcut connect two high-dimension end .
+ident shortcut lead effici model bottleneck design .
+50-layer resnet : replac 2-layer block 4deeper non-bottleneck resnet ( e.g.
+, fig .
+5 left ) also gain accuraci increas depth ( shown cifar-10 ) , econom bottleneck resnet .
+usag bottleneck design main due practic consider .
+note degrad problem plain net also wit bottleneck design .
+6 34-layer net 3-layer bottleneck block , result 50-layer resnet ( tabl 1 ) .
+use option b increas dimens .
+model 3.8 billion flop .
+101-layer 152-layer resnet : construct 101- layer 152-layer resnet use 3-layer block ( tabl 1 ) .
+remark , although depth signific increas , 152-layer resnet ( 11.3 billion flop ) still lower complex vgg-16/19 net ( 15.3/19.6 billion flop ) .
+50/101/152-layer resnet accur 34-layer one consider margin ( tabl 3 4 ) .
+observ degrad problem thus enjoy signific accuraci gain consider increas depth .
+benefit depth wit evalu metric ( tabl 3 4 ) .
+comparison state-of-the-art method .
+tabl 4 compar previous best single-model result .
+baselin 34-layer resnet achiev competit accuraci .
+152-layer resnet single-model top-5 valid error 4.49 % .
+single-model result outperform previous ensembl result ( tabl 5 ) .
+combin six model differ depth form ensembl ( two 152-layer one time submit ) .
+lead 3.57 % top-5 error test set ( tabl 5 ) .
+entri 1st place ilsvrc 2015 .
+4.2 .
+cifar-10 analysi conduct studi cifar-10 dataset [ 20 ] , consist 50k train imag 10k test imag 10 class .
+present experi train train set evalu test set .
+focus behavior extrem deep network , push state-of-the-art result , intent use simpl architectur follow .
+plain/residu architectur follow form fig .
+3 ( middle/right ) .
+network input 32×32 imag , per-pixel mean subtract .
+first layer 3×3 convolut .
+use stack 6n layer 3×3 convolut featur map size { 32 , 16 , 8 } respect , 2n layer featur map size .
+number filter { 16 , 32 , 64 } respect .
+subsampl perform convolut stride 2 .
+network end global averag pool , 10-way fully-connect layer , softmax .
+total 6n+2 stack weight layer .
+follow tabl summar architectur : output map size 32×32 16×16 8×8 # layer 1+2n 2n 2n # filter 16 32 64 shortcut connect use , connect pair 3×3 layer ( total 3n shortcut ) .
+dataset use ident shortcut case ( i.e.
+, option ) , method error ( % ) maxout [ 10 ] 9.38 nin [ 25 ] 8.81 dsn [ 24 ] 8.22 # layer # param fitnet [ 35 ] 19 2.5m 8.39 highway [ 42 , 43 ] 19 2.3m 7.54 ( 7.72±0.16 ) highway [ 42 , 43 ] 32 1.25m 8.80 resnet 20 0.27m 8.75 resnet 32 0.46m 7.51 resnet 44 0.66m 7.17 resnet 56 0.85m 6.97 resnet 110 1.7m 6.43 ( 6.61±0.16 ) resnet 1202 19.4m 7.93 tabl 6 .
+classif error cifar-10 test set .
+method data augment .
+resnet-110 , run 5 time show “ best ( mean±std ) ” [ 43 ] .
+residu model exact depth , width , number paramet plain counterpart .
+use weight decay 0.0001 momentum 0.9 , adopt weight initi [ 13 ] bn [ 16 ] dropout .
+model train minibatch size 128 two gpus .
+start learn rate 0.1 , divid 10 32k 48k iter , termin train 64k iter , determin 45k/5k train/val split .
+follow simpl data augment [ 24 ] train : 4 pixel pad side , 32×32 crop random sampl pad imag horizont flip .
+test , evalu singl view origin 32×32 imag .
+compar n = { 3 , 5 , 7 , 9 } , lead 20 , 32 , 44 , 56-layer network .
+fig .
+6 ( left ) show behavior plain net .
+deep plain net suffer increas depth , exhibit higher train error go deeper .
+phenomenon similar imagenet ( fig .
+4 , left ) mnist ( see [ 42 ] ) , suggest optim difficulti fundament problem .
+fig .
+6 ( middl ) show behavior resnet .
+also similar imagenet case ( fig .
+4 , right ) , resnet manag overcom optim difficulti demonstr accuraci gain depth increas .
+explor n = 18 lead 110-layer resnet .
+case , find initi learn rate 0.1 slight larg start converging5 .
+use 0.01 warm train train error 80 % ( 400 iter ) , go back 0.1 continu train .
+rest learn schedul done previous .
+110-layer network converg well ( fig .
+6 , middl ) .
+fewer paramet deep thin 5with initi learn rate 0.1 , start converg ( < 90 % error ) sever epoch , still reach similar accuraci .
+7 0 1 2 3 4 5 6 0 5 10 20 iter .
+( 1e4 ) error ( % ) plain-20 plain-32 plain-44 plain-56 0 1 2 3 4 5 6 0 5 10 20 iter .
+( 1e4 ) error ( % ) resnet-20 resnet-32 resnet-44 resnet-56 56-layer resnet-110 20-layer 110-layer 20-layer 4 5 6 0 1 5 10 20 iter .
+( 1e4 ) error ( % ) residual-110 residual-1202 figur 6 .
+train cifar-10 .
+dash line denot train error , bold line denot test error .
+left : plain network .
+error plain-110 higher 60 % display .
+middl : resnet .
+right : resnet 110 1202 layer .
+0 20 40 60 80 100 1 2 3 layer index ( sort magnitud ) std plain-20 plain-56 resnet-20 resnet-56 resnet-110 0 20 40 60 80 100 1 2 3 layer index ( origin ) std plain-20 plain-56 resnet-20 resnet-56 resnet-110 figur 7 .
+standard deviat ( std ) layer respons cifar- 10 .
+respons output 3×3 layer , bn nonlinear .
+top : layer shown origin order .
+bottom : respons rank descend order .
+network fitnet [ 35 ] highway [ 42 ] ( tabl 6 ) , yet among state-of-the-art result ( 6.43 % , tabl 6 ) .
+analysi layer respons .
+fig .
+7 show standard deviat ( std ) layer respons .
+respons output 3×3 layer , bn nonlinear ( relu/addit ) .
+resnet , analysi reveal respons strength residu function .
+fig .
+7 show resnet general smaller respons plain counterpart .
+result support basic motiv ( sec.3.1 ) residu function might general closer zero non-residu function .
+also notic deeper resnet smaller magnitud respons , evidenc comparison among resnet-20 , 56 , 110 fig .
+7 .
+layer , individu layer resnet tend modifi signal less .
+explor 1000 layer .
+explor aggress deep model 1000 layer .
+set n = 200 lead 1202-layer network , train describ .
+method show optim difficulti , 103 -layer network abl achiev train error < 0.1 % ( fig .
+6 , right ) .
+test error still fair good ( 7.93 % , tabl 6 ) .
+still open problem aggress deep model .
+test result 1202-layer network wors 110-layer network , although train data 07+12 07++12 test data voc 07 test voc 12 test vgg-16 73.2 70.4 resnet-101 76.4 73.8 tabl 7 .
+object detect map ( % ) pascal voc 2007/2012 test set use baselin faster r-cnn .
+see also tabl 10 11 better result .
+metric map @ .5 map @ [ .5 , .95 ] vgg-16 41.5 21.2 resnet-101 48.4 27.2 tabl 8 .
+object detect map ( % ) coco valid set use baselin faster r-cnn .
+see also tabl 9 better result .
+similar train error .
+argu overfit .
+1202-layer network may unnecessarili larg ( 19.4m ) small dataset .
+strong regular maxout [ 10 ] dropout [ 14 ] appli obtain best result ( [ 10 , 25 , 24 , 35 ] ) dataset .
+paper , use maxout/dropout simpli impos regular via deep thin architectur design , without distract focus difficulti optim .
+combin stronger regular may improv result , studi futur .
+4.3 .
+object detect pascal ms coco method good general perform recognit task .
+tabl 7 8 show object detect baselin result pascal voc 2007 2012 [ 5 ] coco [ 26 ] .
+adopt faster r-cnn [ 32 ] detect method .
+interest improv replac vgg-16 [ 41 ] resnet-101 .
+detect implement ( see appendix ) use model , gain attribut better network .
+remark , challeng coco dataset obtain 6.0 % increas coco ’ standard metric ( map @ [ .5 , .95 ] ) , 28 % relat improv .
+gain sole due learn represent .
+base deep residu net , 1st place sever track ilsvrc & coco 2015 competit : imagenet detect , imagenet local , coco detect , coco segment .
+detail appendix .
+8 refer [ 1 ] y. bengio , p. simard , p. frasconi .
+learn long-term depend gradient descent difficult .
+ieee transact neural network , 5 ( 2 ) :157–166 , 1994 .
+[ 2 ] c. m. bishop .
+neural network pattern recognit .
+oxford univers press , 1995 .
+[ 3 ] w. l. brigg , s. f. mccormick , et al .
+multigrid tutori .
+siam , 2000 .
+[ 4 ] k. chatfield , v. lempitski , a. vedaldi , a. zisserman .
+devil detail : evalu recent featur encod method .
+bmvc , 2011 .
+[ 5 ] m. everingham , l. van gool , c. k. william , j. winn , a. zisserman .
+pascal visual object class ( voc ) challeng .
+ijcv , page 303–338 , 2010 .
+[ 6 ] s. gidari n. komodaki .
+object detect via multi-region & semant segmentation-awar cnn model .
+iccv , 2015 .
+[ 7 ] r. girshick .
+fast r-cnn .
+iccv , 2015 .
+[ 8 ] r. girshick , j. donahu , t. darrel , j. malik .
+rich featur hierarchi accur object detect semant segment .
+cvpr , 2014 .
+[ 9 ] x. glorot y. bengio .
+understand difficulti train deep feedforward neural network .
+aistat , 2010 .
+[ 10 ] i. j. goodfellow , d. warde-farley , m. mirza , a. courvill , y. bengio .
+maxout network .
+arxiv:1302.4389 , 2013 .
+[ 11 ] k. j .
+sun .
+convolut neural network constrain time cost .
+cvpr , 2015 .
+[ 12 ] k. , x. zhang , s. ren , j .
+sun .
+spatial pyramid pool deep convolut network visual recognit .
+eccv , 2014 .
+[ 13 ] k. , x. zhang , s. ren , j .
+sun .
+delv deep rectifi : surpass human-level perform imagenet classif .
+iccv , 2015 .
+[ 14 ] g. e. hinton , n. srivastava , a. krizhevski , i. sutskev , r. r. salakhutdinov .
+improv neural network prevent coadapt featur detector .
+arxiv:1207.0580 , 2012 .
+[ 15 ] s. hochreit j. schmidhub .
+long short-term memori .
+neural comput , 9 ( 8 ) :1735–1780 , 1997 .
+[ 16 ] s. ioff c. szegedi .
+batch normal : acceler deep network train reduc intern covari shift .
+icml , 2015 .
+[ 17 ] h. jegou , m. douz , c. schmid .
+product quantize nearest neighbor search .
+tpami , 33 , 2011 .
+[ 18 ] h. jegou , f. perronnin , m. douz , j. sanchez , p. perez , c. schmid .
+aggreg local imag descriptor compact code .
+tpami , 2012 .
+[ 19 ] y. jia , e. shelham , j. donahu , s. karayev , j .
+long , r. girshick , s. guadarrama , t. darrel .
+caff : convolut architectur fast featur embed .
+arxiv:1408.5093 , 2014 .
+[ 20 ] a. krizhevski .
+learn multipl layer featur tini imag .
+tech report , 2009 .
+[ 21 ] a. krizhevski , i. sutskev , g. hinton .
+imagenet classif deep convolut neural network .
+nip , 2012 .
+[ 22 ] y. lecun , b. boser , j. s. denker , d. henderson , r. e. howard , w. hubbard , l. d. jackel .
+backpropag appli handwritten zip code recognit .
+neural comput , 1989 .
+[ 23 ] y. lecun , l. bottou , g. b. orr , k.-r. muller .
+effici backprop .
+¨ neural network : trick trade , page 9–50 .
+springer , 1998 .
+[ 24 ] c.-i .
+lee , s. xie , p. gallagh , z. zhang , z. tu .
+deeplysupervis net .
+arxiv:1409.5185 , 2014 .
+[ 25 ] m. lin , q. chen , s. yan .
+network network .
+arxiv:1312.4400 , 2013 .
+[ 26 ] t.-i .
+lin , m. mair , s. belongi , j. hay , p. perona , d. ramanan , p. dollar , c. l. zitnick .
+microsoft coco : common object ´ context .
+eccv .
+2014 .
+[ 27 ] j .
+long , e. shelham , t. darrel .
+fulli convolut network semant segment .
+cvpr , 2015 .
+[ 28 ] g. montufar , r. pascanu , k. cho , y. bengio .
+number ´ linear region deep neural network .
+nip , 2014 .
+[ 29 ] v. nair g. e. hinton .
+rectifi linear unit improv restrict boltzmann machin .
+icml , 2010 .
+[ 30 ] f. perronnin c. danc .
+fisher kernel visual vocabulari imag categor .
+cvpr , 2007 .
+[ 31 ] t. raiko , h. valpola , y. lecun .
+deep learn made easier linear transform perceptron .
+aistat , 2012 .
+[ 32 ] s. ren , k. , r. girshick , j .
+sun .
+faster r-cnn : toward real-tim object detect region propos network .
+nip , 2015 .
+[ 33 ] s. ren , k. , r. girshick , x. zhang , j .
+sun .
+object detect network convolut featur map .
+arxiv:1504.06066 , 2015 .
+[ 34 ] b. d. ripley .
+pattern recognit neural network .
+cambridg univers press , 1996 .
+[ 35 ] a. romero , n. balla , s. e. kahou , a. chassang , c. gatta , y. bengio .
+fitnet : hint thin deep net .
+iclr , 2015 .
+[ 36 ] o. russakovski , j. deng , h. su , j. kraus , s. satheesh , s. , z. huang , a. karpathi , a. khosla , m. bernstein , et al .
+imagenet larg scale visual recognit challeng .
+arxiv:1409.0575 , 2014 .
+[ 37 ] a. m. sax , j. l. mcclelland , s. ganguli .
+exact solut nonlinear dynam learn deep linear neural network .
+arxiv:1312.6120 , 2013 .
+[ 38 ] n. n. schraudolph .
+acceler gradient descent factor-cent decomposit .
+technic report , 1998 .
+[ 39 ] n. n. schraudolph .
+center neural network gradient factor .
+neural network : trick trade , page 207–226 .
+springer , 1998 .
+[ 40 ] p. sermanet , d. eigen , x. zhang , m. mathieu , r. fergus , y. lecun .
+overfeat : integr recognit , local detect use convolut network .
+iclr , 2014 .
+[ 41 ] k. simonyan a. zisserman .
+deep convolut network large-scal imag recognit .
+iclr , 2015 .
+[ 42 ] r. k. srivastava , k. greff , j. schmidhub .
+highway network .
+arxiv:1505.00387 , 2015 .
+[ 43 ] r. k. srivastava , k. greff , j. schmidhub .
+train deep network .
+1507.06228 , 2015 .
+[ 44 ] c. szegedi , w. liu , y. jia , p. sermanet , s. reed , d. anguelov , d. erhan , v. vanhouck , a. rabinovich .
+go deeper convolut .
+cvpr , 2015 .
+[ 45 ] r. szeliski .
+fast surfac interpol use hierarch basi function .
+tpami , 1990 .
+[ 46 ] r. szeliski .
+local adapt hierarch basi precondit .
+siggraph , 2006 .
+[ 47 ] t. vatanen , t. raiko , h. valpola , y. lecun .
+push stochast gradient toward second-ord methods–backpropag learn transform nonlinear .
+neural inform process , 2013 .
+[ 48 ] a. vedaldi b. fulkerson .
+vlfeat : open portabl librari comput vision algorithm , 2008 .
+[ 49 ] w. venabl b. ripley .
+modern appli statist s-plus .
+1999 .
+[ 50 ] m. d. zeiler r. fergus .
+visual understand convolut neural network .
+eccv , 2014 .
+9 .
+object detect baselin section introduc detect method base baselin faster r-cnn [ 32 ] system .
+model initi imagenet classif model , fine-tun object detect data .
+experi resnet-50/101 time ilsvrc & coco 2015 detect competit .
+unlik vgg-16 use [ 32 ] , resnet hidden fc layer .
+adopt idea “ network conv featur map ” ( noc ) [ 33 ] address issu .
+comput full-imag share conv featur map use layer whose stride imag greater 16 pixel ( i.e.
+, conv1 , conv2 x , conv3 x , conv4 x , total 91 conv layer resnet-101 ; tabl 1 ) .
+consid layer analog 13 conv layer vgg-16 , , resnet vgg-16 conv featur map total stride ( 16 pixel ) .
+layer share region propos network ( rpn , generat 300 propos ) [ 32 ] fast r-cnn detect network [ 7 ] .
+roi pool [ 7 ] perform conv5 1 .
+roi-pool featur , layer conv5 x adopt region , play role vgg-16 ’ fc layer .
+final classif layer replac two sibl layer ( classi- ficat box regress [ 7 ] ) .
+usag bn layer , pre-train , comput bn statist ( mean varianc ) layer imagenet train set .
+bn layer fix fine-tun object detect .
+, bn layer becom linear activ constant offset scale , bn statist updat fine-tun .
+fix bn layer main reduc memori consumpt faster r-cnn train .
+pascal voc follow [ 7 , 32 ] , pascal voc 2007 test set , use 5k trainval imag voc 2007 16k trainval imag voc 2012 train ( “ 07+12 ” ) .
+pascal voc 2012 test set , use 10k trainval+test imag voc 2007 16k trainval imag voc 2012 train ( “ 07++12 ” ) .
+hyper-paramet train faster r-cnn [ 32 ] .
+tabl 7 show result .
+resnet-101 improv map > 3 % vgg-16 .
+gain sole improv featur learn resnet .
+ms coco ms coco dataset [ 26 ] involv 80 object categori .
+evalu pascal voc metric ( map @ iou = 0.5 ) standard coco metric ( map @ iou = .5 : .05 : .95 ) .
+use 80k imag train set train 40k imag val set evalu .
+detect system coco similar pascal voc .
+train coco model 8-gpu implement , thus rpn step mini-batch size 8 imag ( i.e.
+, 1 per gpu ) fast r-cnn step mini-batch size 16 imag .
+rpn step fast rcnn step train 240k iter learn rate 0.001 80k iter 0.0001 .
+tabl 8 show result ms coco valid set .
+resnet-101 6 % increas map @ [ .5 , .95 ] vgg-16 , 28 % relat improv , sole contribut featur learn better network .
+remark , map @ [ .5 , .95 ] ’ absolut increas ( 6.0 % ) near big map @ .5 ’ ( 6.9 % ) .
+suggest deeper network improv recognit local .
+b .
+object detect improv complet , report improv made competit .
+improv base deep featur thus benefit residu learn .
+ms coco box refin .
+box refin partial follow iter local [ 6 ] .
+faster r-cnn , final output regress box differ propos box .
+infer , pool new featur regress box obtain new classif score new regress box .
+combin 300 new predict origin 300 predict .
+non-maximum suppress ( nms ) appli union set predict box use iou threshold 0.3 [ 8 ] , follow box vote [ 6 ] .
+box re- finement improv map 2 point ( tabl 9 ) .
+global context .
+combin global context fast r-cnn step .
+given full-imag conv featur map , pool featur global spatial pyramid pool [ 12 ] ( “ single-level ” pyramid ) implement “ roi ” pool use entir imag ’ bound box roi .
+pool featur fed post-roi layer obtain global context featur .
+global featur concaten origin per-region featur , follow sibl classif box regress layer .
+new structur train end-to-end .
+global context improv map @ .5 1 point ( tabl 9 ) .
+multi-scal test .
+, result obtain single-scal training/test [ 32 ] , imag ’ shorter side = 600 pixel .
+multi-scal training/test develop [ 12 , 7 ] select scale featur pyramid , [ 33 ] use maxout layer .
+current implement , perform multi-scal test follow [ 33 ] ; perform multi-scal train limit time .
+addit , perform multi-scal test fast r-cnn step ( yet rpn step ) .
+train model , comput conv featur map imag pyramid , imag ’ shorter side ∈ { 200 , 400 , 600 , 800 , 1000 } .
+10 train data coco train coco trainval test data coco val coco test-dev map @ .5 @ [ .5 , .95 ] @ .5 @ [ .5 , .95 ] baselin faster r-cnn ( vgg-16 ) 41.5 21.2 baselin faster r-cnn ( resnet-101 ) 48.4 27.2 +box refin 49.9 29.9 +context 51.1 30.0 53.3 32.2 +multi-scal test 53.8 32.5 55.7 34.9 ensembl 59.0 37.4 tabl 9 .
+object detect improv ms coco use faster r-cnn resnet-101 .
+system net data map areo bike bird boat bottl bus car cat chair cow tabl dog hors mbike person plant sheep sofa train tv baselin vgg-16 07+12 73.2 76.5 79.0 70.9 65.5 52.1 83.1 84.7 86.4 52.0 81.9 65.7 84.8 84.6 77.5 76.7 38.8 73.6 73.9 83.0 72.6 baselin resnet-101 07+12 76.4 79.8 80.7 76.2 68.3 55.9 85.1 85.3 89.8 56.7 87.8 69.4 88.3 88.9 80.9 78.4 41.7 78.6 79.8 85.3 72.0 baseline+++ resnet-101 coco+07+12 85.6 90.0 89.6 87.8 80.8 76.1 89.9 89.9 89.6 75.5 90.0 80.7 89.6 90.3 89.1 88.7 65.4 88.1 85.6 89.0 86.8 tabl 10 .
+detect result pascal voc 2007 test set .
+baselin faster r-cnn system .
+system “ baseline+++ ” includ box refin , context , multi-scal test tabl 9. system net data map areo bike bird boat bottl bus car cat chair cow tabl dog hors mbike person plant sheep sofa train tv baselin vgg-16 07++12 70.4 84.9 79.8 74.3 53.9 49.8 77.5 75.9 88.5 45.6 77.1 55.3 86.9 81.7 80.9 79.6 40.1 72.6 60.9 81.2 61.5 baselin resnet-101 07++12 73.8 86.5 81.6 77.2 58.0 51.0 78.6 76.6 93.2 48.6 80.4 59.0 92.1 85.3 84.8 80.7 48.1 77.3 66.5 84.7 65.6 baseline+++ resnet-101 coco+07++12 83.8 92.1 88.4 84.8 75.9 71.4 86.3 87.8 94.2 66.8 89.4 69.2 93.9 91.9 90.9 89.6 67.9 88.2 76.8 90.3 80.0 tabl 11 .
+detect result pascal voc 2012 test set ( http : //host.robots.ox.ac.uk:8080/leaderboard/ displaylb.php ?
+challengeid=11 & compid=4 ) .
+baselin faster r-cnn system .
+system “ baseline+++ ” includ box refin , context , multi-scal test tabl 9 .
+select two adjac scale pyramid follow [ 33 ] .
+roi pool subsequ layer perform featur map two scale [ 33 ] , merg maxout [ 33 ] .
+multi-scal test improv map 2 point ( tabl 9 ) .
+use valid data .
+next use 80k+40k trainval set train 20k test-dev set evalu .
+testdev set public avail ground truth result report evalu server .
+set , result map @ .5 55.7 % map @ [ .5 , .95 ] 34.9 % ( tabl 9 ) .
+single-model result .
+ensembl .
+faster r-cnn , system design learn region propos also object classifi , ensembl use boost task .
+use ensembl propos region , union set propos process ensembl per-region classifi .
+tabl 9 show result base ensembl 3 network .
+map 59.0 % 37.4 % test-dev set .
+result 1st place detect task coco 2015 .
+pascal voc revisit pascal voc dataset base model .
+singl model coco dataset ( 55.7 % map @ .5 tabl 9 ) , fine-tun model pascal voc set .
+improv box refin , context , multi-scal test also adopt .
+val2 test googlenet [ 44 ] ( ilsvrc ’ 14 ) - 43.9 singl model ( ilsvrc ’ 15 ) 60.5 58.8 ensembl ( ilsvrc ’ 15 ) 63.6 62.1 tabl 12 .
+result ( map , % ) imagenet detect dataset .
+detect system faster r-cnn [ 32 ] improv tabl 9 , use resnet-101 .
+achiev 85.6 % map pascal voc 2007 ( tabl 10 ) 83.8 % pascal voc 2012 ( tabl 11 ) 6 .
+result pascal voc 2012 10 point higher previous state-of-the-art result [ 6 ] .
+imagenet detect imagenet detect ( det ) task involv 200 object categori .
+accuraci evalu map @ .5 .
+object detect algorithm imagenet det ms coco tabl 9 .
+network pretrain 1000-class imagenet classif set , fine-tun det data .
+split valid set two part ( val1/val2 ) follow [ 8 ] .
+fine-tun detect model use det train set val1 set .
+val2 set use valid .
+use ilsvrc 2015 data .
+singl model resnet-101 6http : //host.robots.ox.ac.uk:8080/anonymous/3oj4oj.html , submit 2015-11-26 .
+11 loc method loc network test loc error gt cls classif network top-5 loc error predict cls vgg ’ [ 41 ] vgg-16 1-crop 33.1 [ 41 ] rpn resnet-101 1-crop 13.3 rpn resnet-101 dens 11.7 rpn resnet-101 dens resnet-101 14.4 rpn+rcnn resnet-101 dens resnet-101 10.6 rpn+rcnn ensembl dens ensembl 8.9 tabl 13 .
+local error ( % ) imagenet valid .
+column “ loc error gt class ” ( [ 41 ] ) , ground truth class use .
+“ test ” column , “ 1-crop ” denot test center crop 224×224 pixel , “ dens ” denot dens ( fulli convolut ) multi-scal test .
+58.8 % map ensembl 3 model 62.1 % map det test set ( tabl 12 ) .
+result 1st place imagenet detect task ilsvrc 2015 , surpass second place 8.5 point ( absolut ) .
+c. imagenet local imagenet local ( loc ) task [ 36 ] requir classifi local object .
+follow [ 40 , 41 ] , assum image-level classifi first adopt predict class label imag , local algorithm account predict bound box base predict class .
+adopt “ per-class regress ” ( pcr ) strategi [ 40 , 41 ] , learn bound box regressor class .
+pre-train network imagenet classif fine-tun local .
+train network provid 1000-class imagenet train set .
+local algorithm base rpn framework [ 32 ] modif .
+unlik way [ 32 ] category-agnost , rpn local design per-class form .
+rpn end two sibl 1×1 convolut layer binari classif ( cls ) box regress ( reg ) , [ 32 ] .
+cls reg layer per-class , contrast [ 32 ] .
+specifi- calli , cls layer 1000-d output , dimens binari logist regress predict object class ; reg layer 1000×4-d output consist box regressor 1000 class .
+[ 32 ] , bound box regress refer multipl translation-invari “ anchor ” box posit .
+imagenet classif train ( sec .
+3.4 ) , random sampl 224×224 crop data augment .
+use mini-batch size 256 imag fine-tun .
+avoid negat sampl domin , 8 anchor random sampl imag , sampl posit negat anchor ratio 1:1 [ 32 ] .
+test , network appli imag fully-convolut .
+tabl 13 compar local result .
+follow [ 41 ] , first perform “ oracl ” test use ground truth class classif predict .
+vgg ’ paper [ 41 ] remethod top-5 local err val test overfeat [ 40 ] ( ilsvrc ’ 13 ) 30.0 29.9 googlenet [ 44 ] ( ilsvrc ’ 14 ) - 26.7 vgg [ 41 ] ( ilsvrc ’ 14 ) 26.9 25.3 ( ilsvrc ’ 15 ) 8.9 9.0 tabl 14 .
+comparison local error ( % ) imagenet dataset state-of-the-art method .
+port center-crop error 33.1 % ( tabl 13 ) use ground truth class .
+set , rpn method use resnet-101 net signific reduc center-crop error 13.3 % .
+comparison demonstr excel perform framework .
+dens ( fulli convolut ) multi-scal test , resnet-101 error 11.7 % use ground truth class .
+use resnet-101 predict class ( 4.6 % top-5 classif error , tabl 4 ) , top-5 local error 14.4 % .
+result base propos network ( rpn ) faster r-cnn [ 32 ] .
+one may use detect network ( fast r-cnn [ 7 ] ) faster r-cnn improv result .
+notic dataset , one imag usual contain singl domin object , propos region high overlap thus similar roi-pool featur .
+result , image-centr train fast r-cnn [ 7 ] generat sampl small variat , may desir stochast train .
+motiv , current experi use origin rcnn [ 8 ] roi-centr , place fast r-cnn .
+r-cnn implement follow .
+appli per-class rpn train train imag predict bound box ground truth class .
+predict box play role class-depend propos .
+train imag , highest score 200 propos extract train sampl train r-cnn classi- fier .
+imag region crop propos , warp 224×224 pixel , fed classif network r-cnn [ 8 ] .
+output network consist two sibl fc layer cls reg , also per-class form .
+r-cnn network fine-tun train set use mini-batch size 256 roi-centr fashion .
+test , rpn generat highest score 200 propos predict class , r-cnn network use updat propos ’ score box posit .
+method reduc top-5 local error 10.6 % ( tabl 13 ) .
+single-model result valid set .
+use ensembl network classif local , achiev top-5 local error 9.0 % test set .
+number signific outperform ilsvrc 14 result ( tabl 14 ) , show 64 % relat reduct error .
+result 1st place imagenet local task ilsvrc 2015 .
+12
