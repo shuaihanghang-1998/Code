@@ -39,6 +39,7 @@ def predicate():
 
 
     for valid_data in valid_list:
+        vector=np.zeros(100)
         flag+=1
         if flag % 1000 == 0:
             print(flag)
@@ -64,6 +65,7 @@ def predicate():
         
 
     for paper_data in paper_list:
+        vector=np.zeros(100)
         flag+=1
         if flag % 1000 == 0:
             print(flag)

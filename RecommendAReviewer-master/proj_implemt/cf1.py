@@ -1,7 +1,7 @@
 import numpy as np
 import scipy.stats
 import scipy.spatial
-from sklearn.cross_validation import KFold
+from sklearn.model_selection import KFold
 import random
 from sklearn.metrics import mean_squared_error
 from math import sqrt
@@ -43,7 +43,7 @@ def similarity(data,number):
 	user_similarity_jaccard = np.zeros((number,number))
 	user_similarity_pearson = np.zeros((number,number))
 	for user1 in range(number):
-		print user1
+		#print user1
 		for user2 in range(number):
 			if np.count_nonzero(data[user1]) and np.count_nonzero(data[user2]):
 				user_similarity_cosine[user1][user2] = 1-scipy.spatial.distance.cosine(data[user1],data[user2])
@@ -180,7 +180,7 @@ def crossValidation(data, user_data, item_data):
 		rmse_jaccard.append(sqrt(mean_squared_error(true_rate, pred_rate_jaccard)))
 		rmse_pearson.append(sqrt(mean_squared_error(true_rate, pred_rate_pearson)))
 
-		print str(sqrt(mean_squared_error(true_rate, pred_rate_cosine))) + "\t" + str(sqrt(mean_squared_error(true_rate, pred_rate_jaccard))) + "\t" + str(sqrt(mean_squared_error(true_rate, pred_rate_pearson)))
+		#print str(sqrt(mean_squared_error(true_rate, pred_rate_cosine))) + "\t" + str(sqrt(mean_squared_error(true_rate, pred_rate_jaccard))) + "\t" + str(sqrt(mean_squared_error(true_rate, pred_rate_pearson)))
 		#raw_input()
 
 	#print sum(rms) / float(len(rms))
@@ -188,7 +188,7 @@ def crossValidation(data, user_data, item_data):
 	rmse_pearson = sum(rmse_pearson) / float(len(rmse_pearson))
 	rmse_jaccard = sum(rmse_jaccard) / float(len(rmse_jaccard))
 
-	print str(rmse_cosine) +	 "\t" + str(rmse_jaccard) + "\t" + str(rmse_pearson)
+	#print str(rmse_cosine) +	 "\t" + str(rmse_jaccard) + "\t" + str(rmse_pearson)
 
 	f_rmse = open("rmse_hybrid.txt","w")
 	f_rmse.write(str(rmse_cosine) + "\t" + str(rmse_jaccard) + "\t" + str(rmse_pearson) + "\n")
@@ -267,12 +267,15 @@ user_data = getData(sys.argv[2])
 item_data = getData(sys.argv[3])
 users = user_data.shape[0]
 items = item_data.shape[0]
-print users
-print items
+#print users
+#print items
 predictRating(recommend_data, user_data, item_data)
 #crossValidation(recommend_data, user_data, item_data)
-# This file computes the complete matrix after collaborative filtering. Execute it as 'python cf.py ratings.txt users.txt papers.txt' where users is the file containing the vector for users(one user per line), papers.txt is the file containing the paper vectors to be predicted(one per line), and ratings.txt is  the file with relevance scores as given in nips_reviewer_data.
+# This file computes the complete matrix after collaborative filtering. Execute it as 'python cf1.py ratings.txt users.txt papers.txt' where users is the file containing the vector for users(one user per line), papers.txt is the file containing 
+# the paper vectors to be predicted(one per line), and ratings.txt is  the file with relevance scores as given in 
+# nips_reviewer_data.
 
 
 
-#Hybrid Collaborative filtering done by giving similar items and similar users similar scores.(Metrics used for similarity: jaccard, cosine, pearson)
+#Hybrid Collaborative filtering done by giving similar items and similar users similar scores.
+# (Metrics used for similarity: jaccard, cosine, pearson)

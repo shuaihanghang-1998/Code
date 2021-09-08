@@ -6,8 +6,8 @@ import csv
 """
 def csv_json():
     # 1.分别 读，创建文件
-    json_fp = open("D://data//Paper recommendation system//predicate.json", "r",encoding='utf-8-sig')
-    csv_fp = open("D://data//Paper recommendation system//predicate.csv", "w",encoding='utf-8-sig',newline='')
+    json_fp = open("D://data//Paper recommendation system//peoplevec.json", "r",encoding='utf-8-sig')
+    csv_fp = open("D://data//Paper recommendation system//peoplevec.csv", "w",encoding='utf-8-sig',newline='')
     # 2.提出表头和表的内容
     data_list = json.load(json_fp)
     sheet_title = data_list[0].keys()

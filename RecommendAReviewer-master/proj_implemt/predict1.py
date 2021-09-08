@@ -1,6 +1,6 @@
 import pandas as pd
 import numpy as np 
-import sanitize
+#import sanitize
 from sklearn.manifold import TSNE
 from gensim.models.ldamodel import LdaModel
 # from gensim.utils.SaveLoad import save
@@ -56,14 +56,14 @@ for i in range(len(texts)):
 	doc_bow = dictionary.doc2bow(texts[i])
 	lda_topics.append(ldamodel[doc_bow])
 arr = np.array(lda_topics).astype(float)
-print arr.shape
+#print arr.shape
 arr = arr[:,:,1]
 np.savetxt('paper_vec.txt',arr) 
 # model.show_topics()
 
 # print topic 28
 # model.print_topic(109, topn=20)
-print "here !!!!!!!!!!!!!!!!!!!!!"
+#print "here !!!!!!!!!!!!!!!!!!!!!"
 
 # print dictionary.items()
 #print ldamodel[doc_bow]
