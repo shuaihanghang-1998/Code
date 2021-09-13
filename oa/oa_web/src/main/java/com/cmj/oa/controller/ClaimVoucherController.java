@@ -2,8 +2,6 @@ package com.cmj.oa.controller;
 
 import com.cmj.oa.biz.ClaimVoucherBiz;
 import com.cmj.oa.biz.EmployeeBiz;
-import com.cmj.oa.biz.impl.ClaimVoucherBizImpl;
-import com.cmj.oa.biz.impl.EmployeeBizImpl;
 import com.cmj.oa.dto.ClaimVoucherInfo;
 import com.cmj.oa.entity.ClaimVoucher;
 import com.cmj.oa.entity.ClaimVoucherItem;
@@ -14,10 +12,6 @@ import com.cmj.oa.util.DateUtil;
 import com.cmj.oa.util.FileUtil;
 import com.cmj.oa.util.ResponseUtil;
 import net.sf.json.JSONObject;
-import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.fileupload.FileItemFactory;
-import org.apache.commons.fileupload.disk.DiskFileItemFactory;
-import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -38,7 +32,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -208,7 +202,7 @@ public class ClaimVoucherController {
             // 取得 模板的 第一个sheet 页
             Sheet sheet = wb.getSheetAt(0);
             // 拿到sheet页有多少列
-            int cellNums = sheet.getRow(0).getLastCellNum();
+            //int cellNums = sheet.getRow(0).getLastCellNum();
             // 从第3行 开始写入 前两行为标题
             int rowIndex = 2;
             Row row = sheet.createRow(rowIndex);
@@ -257,7 +251,7 @@ public class ClaimVoucherController {
         }else {
 
             String fileName = file.getOriginalFilename();  // 文件名
-            String suffixName = fileName.substring(fileName.lastIndexOf("."));  // 后缀名
+            //String suffixName = fileName.substring(fileName.lastIndexOf("."));  // 后缀名
             String filePath = "D:/Git/oa__reimbursement_system/images/"; // 上传后的路径
             fileName = DateUtil.formatDate(new Date(), "yyyyMMddHH")+"_"+employee.getSn()+"_"+fileName; // 新文件名
             File dest = new File(filePath + fileName);

@@ -10,7 +10,6 @@ import com.cmj.oa.entity.ClaimVoucherItem;
 import com.cmj.oa.entity.DealRecord;
 import com.cmj.oa.entity.Employee;
 import com.cmj.oa.global.Contant;
-import org.apache.commons.fileupload.FileItem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;

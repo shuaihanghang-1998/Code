@@ -4,7 +4,6 @@ import com.cmj.oa.biz.ClaimVoucherBiz;
 import com.cmj.oa.biz.DepartmentBiz;
 import com.cmj.oa.biz.EmployeeBiz;
 import com.cmj.oa.entity.ClaimVoucher;
-import com.cmj.oa.entity.Department;
 import com.cmj.oa.entity.Employee;
 import com.cmj.oa.global.Contant;
 import org.springframework.beans.factory.annotation.Autowired;

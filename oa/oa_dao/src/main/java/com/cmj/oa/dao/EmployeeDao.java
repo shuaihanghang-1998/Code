@@ -1,6 +1,5 @@
 package com.cmj.oa.dao;
 
-import com.cmj.oa.entity.Department;
 import com.cmj.oa.entity.Employee;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
