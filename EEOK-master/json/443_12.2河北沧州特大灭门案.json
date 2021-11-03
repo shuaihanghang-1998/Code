@@ -1,0 +1,109 @@
+{
+  "event_element": [
+    {
+      "event_sentence": "2011年12月2日20时50分左右，任丘市于村乡诗坞基村发生一起灭门惨案，一家三口被杀死在家中，另有两人受伤住院。",
+      "event_graph": [
+        {
+          "child_event_id": "e01",
+          "trigger": "发生",
+          "trigger_object": "灭门惨案",
+          "object_attri": "一起",
+          "time": "2011年12月2日20时50分",
+          "time_align": "2011-12-02-20-59",
+          "location": "任丘市于村乡诗坞基村",
+          "organization": "",
+          "person": "",
+          "subject_attri": "",
+          "trigger_subject": ""
+        },
+        {
+          "child_event_id": "e02",
+          "trigger": "被-杀死",
+          "trigger_object": "",
+          "object_attri": "",
+          "time": "2011年12月2日20时50分",
+          "time_align": "2011-12-02-20-59",
+          "location": "任丘市于村乡诗坞基村",
+          "organization": "",
+          "person": "",
+          "subject_attri": "一家",
+          "trigger_subject": "三口"
+        },
+        {
+          "child_event_id": "e03",
+          "trigger": "受伤住院",
+          "trigger_object": "",
+          "object_attri": "",
+          "time": "2011年12月2日20时50分",
+          "time_align": "2011-12-02-20-59",
+          "location": "任丘市于村乡诗坞基村",
+          "organization": "",
+          "person": "",
+          "subject_attri": "两",
+          "trigger_subject": "人"
+        }
+      ]
+    },
+    {
+      "event_sentence": "12月4日凌晨6时许，犯罪嫌疑人金秋平被任丘警方成功抓获，犯罪嫌疑人的哥哥因涉嫌包庇罪也被警方刑拘。",
+      "event_graph": [
+        {
+          "child_event_id": "e04",
+          "trigger": "抓获",
+          "trigger_object": "犯罪嫌疑人",
+          "object_attri": "",
+          "time": "12月4日凌晨6时",
+          "time_align": "2011-12-04-06-00",
+          "location": "",
+          "organization": "",
+          "person": "金秋平",
+          "subject_attri": "任丘",
+          "trigger_subject": "警方"
+        },
+        {
+          "child_event_id": "e05",
+          "trigger": "涉嫌",
+          "trigger_object": "包庇罪",
+          "object_attri": "其",
+          "time": "12月4日凌晨6时",
+          "time_align": "2011-12-04-06-00",
+          "location": "",
+          "organization": "",
+          "person": "",
+          "subject_attri": "犯罪嫌疑人的",
+          "trigger_subject": "哥哥"
+        },
+        {
+          "child_event_id": "e06",
+          "trigger": "被-刑拘",
+          "trigger_object": "警方",
+          "object_attri": "其",
+          "time": "12月4日凌晨6时",
+          "time_align": "2011-12-04-06-00",
+          "location": "",
+          "organization": "",
+          "person": "",
+          "subject_attri": "",
+          "trigger_subject": "哥哥"
+        }
+      ]
+    }
+  ],
+  "event_relation": {
+    "e01": {
+      "e02": "顺承关系"
+    },
+    "e02": {
+      "e03": "顺承关系"
+    },
+    "e03": {
+      "e04": "顺承关系"
+    },
+    "e04": {
+      "e05": "顺承关系"
+    },
+    "e05": {
+      "e06": "因果关系"
+    }
+  }
+}

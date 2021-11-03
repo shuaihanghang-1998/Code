@@ -1,0 +1,98 @@
+{
+  "event_element": [
+    {
+      "event_sentence": "5月9日下午3时，正在进行职工歌咏比赛彩排的毕节大剧院舞台主升降台突然下坠，造成参加彩排的8名职工受伤。",
+      "event_graph": [
+        {
+          "child_event_id": "e01",
+          "trigger": "下坠",
+          "trigger_object": "",
+          "object_attri": "",
+          "time": "5月9日下午3时",
+          "time_align": "XXXX-05-09-03-XX",
+          "location": "毕节大剧院",
+          "organization": "",
+          "person": "",
+          "subject_attri": "正在进行职工歌咏比赛彩排的毕节大剧院舞台主",
+          "trigger_subject": "升降台"
+        },
+        {
+          "child_event_id": "e02",
+          "trigger": "造成",
+          "trigger_object": "受伤",
+          "object_attri": "参加彩排的8名职工",
+          "time": "5月9日下午3时",
+          "time_align": "XXXX-05-09-03-XX",
+          "location": "毕节大剧院",
+          "organization": "",
+          "person": "",
+          "subject_attri": "",
+          "trigger_subject": ""
+        }
+      ]
+    },
+    {
+      "event_sentence": "事发后，相关单位立即赶赴现场。",
+      "event_graph": [
+        {
+          "child_event_id": "e03",
+          "trigger": "赶赴",
+          "trigger_object": "现场",
+          "object_attri": "",
+          "time": "5月9日下午3时",
+          "time_align": "XXXX-05-09-03-XX",
+          "location": "毕节大剧院",
+          "organization": "",
+          "person": "",
+          "subject_attri": "",
+          "trigger_subject": "相关单位"
+        }
+      ]
+    },
+    {
+      "event_sentence": "目前，伤者已送到医院医治，事件原因正在被调查中。",
+      "event_graph": [
+        {
+          "child_event_id": "e04",
+          "trigger": "送到",
+          "trigger_object": "医院",
+          "object_attri": "",
+          "time": "",
+          "time_align": "",
+          "location": "",
+          "organization": "",
+          "person": "",
+          "subject_attri": "",
+          "trigger_subject": "伤者"
+        },
+        {
+          "child_event_id": "e05",
+          "trigger": "被-调查",
+          "trigger_object": "",
+          "object_attri": "",
+          "time": "",
+          "time_align": "",
+          "location": "",
+          "organization": "",
+          "person": "",
+          "subject_attri": "事件",
+          "trigger_subject": "原因"
+        }
+      ]
+    }
+  ],
+  "event_relation": {
+    "e01": {
+      "e02": "因果关系"
+    },
+    "e02": {
+      "e03": "顺承关系"
+    },
+    "e03": {
+      "e04": "顺承关系"
+    },
+    "e04": {
+      "e05": "顺承关系"
+    }
+  }
+}
