@@ -105,10 +105,12 @@ def get_news_graph(graph_controller, news_content):
 
         sentence_trigger_list = []
         for role in analyse['role']:
+            print("role:")
+            print(role)
             # 判定为不重要的trigger 不予考虑
             if trigger_rank(analyse, role['index']) <= 1:
                 continue
-
+            
             # 获取句子机构信息（A0，A1）
             # 获取句子人物信息（A0，A1）
             event_organization_in_a0 = []
