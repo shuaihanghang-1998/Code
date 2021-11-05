@@ -84,7 +84,7 @@ def get_news_graph(graph_controller, news_content):
     for sentence in key_sentence:
 
         analyse = single_ltp(sentence)  # ltp
-        # print_result(analyse)
+        print_result(analyse)
 
         # TODO: 获取句子时间信息方法改善，当简单的使用第一个逗号前面的部分作为时间信息
         event_time = None
@@ -105,10 +105,12 @@ def get_news_graph(graph_controller, news_content):
 
         sentence_trigger_list = []
         for role in analyse['role']:
+            print("role:")
+            print(role)
             # 判定为不重要的trigger 不予考虑
-            # if trigger_rank(analyse, role['index']) <= 1:
-            #     continue
-
+            if trigger_rank(analyse, role['index']) <= 1:
+                continue
+            
             # 获取句子机构信息（A0，A1）
             # 获取句子人物信息（A0，A1）
             event_organization_in_a0 = []
@@ -138,6 +140,7 @@ def get_news_graph(graph_controller, news_content):
 
             # 分析trigger元素，基于trigger role以及其他的句法分析结果：ATT、VOB、COO、SVB等关系
             trigger_pattern, first_index, last_index = get_trigger_pattern(analyse, role['index'])
+            print(trigger_pattern)
             sentence_trigger_list.append((trigger_pattern, first_index, last_index))
 
             # 将trigger相关的人名、机构名信息加入到graph中
@@ -145,9 +148,9 @@ def get_news_graph(graph_controller, news_content):
             graph_controller.add_child_list(trigger_pattern, event_organization_in_a1, 'organization-A1')
             graph_controller.add_child_list(trigger_pattern, event_person_in_a0, 'person-A0')
             graph_controller.add_child_list(trigger_pattern, event_person_in_a1, 'person-A1')
-
-            # 判断是不是root trigger
             graph_controller.add_child_list(trigger_pattern, [event_time], 'time')
+            # 判断是不是root trigger
+            
             if analyse['basic'][role['index']]['head'] == -1:
                 # 如果是root trigger，加入到root trigger list中，并将时间、地点、机构名信息加入到graph中
                 root_trigger_list.append(trigger_pattern)
@@ -170,7 +173,8 @@ def get_news_graph(graph_controller, news_content):
 
 
 if __name__ == '__main__':
-    news_content = "北京时间2017年6月22日凌晨5点左右，在浙江杭州蓝色钱江小区2幢1单元1802室发生纵火案。" \
+    '''
+    "北京时间2017年6月22日凌晨5点左右，在浙江杭州蓝色钱江小区2幢1单元1802室发生纵火案。" \
                    "该事件造成4人死亡（一位母亲和三个未成年孩子）。" \
                    "2017年7月1日，根据杭州市人民检察院批准逮捕决定，杭州市公安局对涉嫌放火罪、盗窃罪的犯罪嫌疑人莫焕晶依法执行逮捕。" \
                    "2017年8月21日，杭州市检察院依法对被告人莫焕晶提起公诉。" \
@@ -181,11 +185,17 @@ if __name__ == '__main__':
                    "5月17日9时，莫焕晶上诉开庭审理；下午17时20分许，庭审结束，审判长宣布择期宣判。 " \
                    "6月4日，案件作出二审裁定：驳回上诉，维持原判。" \
                    "2018年9月21日，经最高人民法院核准，莫焕晶被执行死刑。"
+    '''
+    news_content ="2014年10月3日，湖北洪湖市发生连环中毒事故，致6人死亡。"\
+    "2014年10月3日下午，湖北洪湖市乌林镇成立事故调查组对漂染池中的物质进行分析。"\
+    "2014年10月3日下午，湖北洪湖市连环中毒事故相关企业负责人被控制。"\
+    "湖北洪湖市连环中毒事故，受到了社会各界的关注。"
+
     graph_counter = GraphController()
-    print('success1')
+
     news_graph_count = get_news_graph(graph_counter, news_content)
     print(news_graph_count.graph)
     with open("./front/data/graph.json", 'w', encoding='utf-8') as f:
-        print('success3')
+
         f.write(json.dumps(news_graph_count.graph, ensure_ascii=False))
 
