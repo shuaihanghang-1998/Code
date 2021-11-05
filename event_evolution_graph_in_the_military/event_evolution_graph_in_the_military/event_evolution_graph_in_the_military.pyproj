@@ -12,6 +12,7 @@
     <Name>event_evolution_graph_in_the_military</Name>
     <RootNamespace>event_evolution_graph_in_the_military</RootNamespace>
     <InterpreterId>Global|PythonCore|3.6</InterpreterId>
+    <SuppressPackageInstallationPrompt>True</SuppressPackageInstallationPrompt>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>
