@@ -4,7 +4,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>19ec751a-7fee-4ae4-b865-144efaa4c672</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>utils\graph_manager.py</StartupFile>
+    <StartupFile>front\makeXML.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
