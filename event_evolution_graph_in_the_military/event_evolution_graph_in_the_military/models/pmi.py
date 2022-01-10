@@ -4,8 +4,8 @@ import json
 import random
 
 # TODO: change dir path and file path
-test_dir = r'../corpus/bad.data'
-train_file = r'../corpus/good.data'
+test_dir = r'./corpus/example.json'
+train_file = r'./corpus/example.json'
 
 
 class Event:
@@ -63,6 +63,7 @@ class PMI:
                  test_question.context])
             results.append((similarity, i))
         results.sort()
+        print(results)
         return results[-1][1]
 
 
@@ -85,12 +86,13 @@ def parse_event(eventdic):
 
 def read_question_corpus(path):
     items = []
-    with open(path, 'r') as load_f:
+    with open(path, 'r',encoding='UTF-8') as load_f:
         data_list = json.load(load_f)
+        
     for chain in data_list:
         answer = 0
-        context = [parse_event(event) for event in chain]
-        choices = [parse_event(event) for event in chain]
+        context = [parse_event(event) for event in chain['event']]
+        choices = [parse_event(event) for event in chain['event']]
         items.append(Question(answer, context, choices))
     return items
 
@@ -106,21 +108,23 @@ def build_question(chains, all_verbs):
                 choices.append(Event(v, '', ''))
         else:
             break
+    
     return Question(answer, context, choices)
 
 
 def read_c_and_j_corpus():
     documents = []
     all_verbs = []
-    with open(test_dir, 'r') as load_f:
+    with open(test_dir, 'r',encoding='UTF-8') as load_f:
         data_list = json.load(load_f)
     for data in data_list:
         chain = []
-        for event in data:
+        for event in data['event']:
             chain.append(Event(event['trigger'], '', ''))
             all_verbs.append(event['trigger'])
         documents.append(chain)
     all_verbs = [v for v in set(all_verbs)]
+    print(len(all_verbs))
     questions = []
     for chains in documents:
         if len(chains) < 9:
@@ -130,7 +134,6 @@ def read_c_and_j_corpus():
             for i in range(0, len(chains) - 9):
                 random.shuffle(all_verbs)
                 questions.append(build_question(chains[i:i + 9], all_verbs))
-
     return questions
 
 
@@ -139,6 +142,7 @@ def eval(test, results):
     for i in range(len(test)):
         if results[i] == test[i].answer:
             acc += 1
+        print(results[i] ,test[i].answer)
     print('Acc:%s' % (acc / len(test)))
 
 
@@ -148,3 +152,8 @@ if __name__ == '__main__':
     train = train[:10000]
     results = pmi_prediction(train, test)
     eval(test, results)
+    #计算准确率有问题
+    ##问题构建不应该用全部的trigger，应该有用本事件链内的trigger
+    #计算pmi得分排名时，不应该用序号代表最终选择，应该用trigger
+    ##计算得分公式没有问题
+    #这个更像是预测的模型，不过回头可以改改

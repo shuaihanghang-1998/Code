@@ -86,11 +86,13 @@ def get_news_graph(graph_controller, news_content):
         analyse = single_ltp(sentence)  # ltp
         print_result(analyse)
 
-        # TODO: 获取句子时间信息方法改善，当简单的使用第一个逗号前面的部分作为时间信息
+        # TODO: 获取句子时间信息方法改善
         event_time = None
-        if '，' in sentence:
-            event_time = sentence.split('，')[0]
-
+        timeword = ''
+        for w in analyse['basic']:
+            if w['pos'] == 'nt':
+                timeword += w['word']
+                event_time = timeword
         # 获取句子位置信息
         event_position = get_entity_patterns(analy=analyse,
                                              entity_type='Ns',
@@ -112,9 +114,10 @@ def get_news_graph(graph_controller, news_content):
                 continue
             
             # 获取句子机构信息（A0，A1）
-            # 获取句子人物信息（A0，A1）
+            
             event_organization_in_a0 = []
             event_organization_in_a1 = []
+            # 获取句子人物信息（A0，A1）
             event_person_in_a0 = []
             event_person_in_a1 = []
             
@@ -140,6 +143,7 @@ def get_news_graph(graph_controller, news_content):
 
             # 分析trigger元素，基于trigger role以及其他的句法分析结果：ATT、VOB、COO、SVB等关系
             trigger_pattern, first_index, last_index = get_trigger_pattern(analyse, role['index'])
+            print("trigger_pattern:")
             print(trigger_pattern)
             sentence_trigger_list.append((trigger_pattern, first_index, last_index))
 
@@ -174,8 +178,8 @@ def get_news_graph(graph_controller, news_content):
 
 if __name__ == '__main__':
     '''
-    "北京时间2017年6月22日凌晨5点左右，在浙江杭州蓝色钱江小区2幢1单元1802室发生纵火案。" \
-                   "该事件造成4人死亡（一位母亲和三个未成年孩子）。" \
+    "北京时间2008年5月12日，汶川发生地震。" \
+                   "四川省委省政府紧急部署抗震救灾工作。" \
                    "2017年7月1日，根据杭州市人民检察院批准逮捕决定，杭州市公安局对涉嫌放火罪、盗窃罪的犯罪嫌疑人莫焕晶依法执行逮捕。" \
                    "2017年8月21日，杭州市检察院依法对被告人莫焕晶提起公诉。" \
                    "2017年12月21日上午9时许，杭州“蓝色钱江放火案”在浙江省杭州市中级人民法院公开开庭审理。法庭宣布延期审理。" \
@@ -186,10 +190,8 @@ if __name__ == '__main__':
                    "6月4日，案件作出二审裁定：驳回上诉，维持原判。" \
                    "2018年9月21日，经最高人民法院核准，莫焕晶被执行死刑。"
     '''
-    news_content ="2014年10月3日，湖北洪湖市发生连环中毒事故，致6人死亡。"\
-    "2014年10月3日下午，湖北洪湖市乌林镇成立事故调查组对漂染池中的物质进行分析。"\
-    "2014年10月3日下午，湖北洪湖市连环中毒事故相关企业负责人被控制。"\
-    "湖北洪湖市连环中毒事故，受到了社会各界的关注。"
+    news_content ="北京时间2008年5月12日，汶川发生地震。" \
+                   "四川省委省政府紧急部署抗震救灾工作。"
 
     graph_counter = GraphController()
 

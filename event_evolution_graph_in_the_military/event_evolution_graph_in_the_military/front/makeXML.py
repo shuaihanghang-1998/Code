@@ -127,12 +127,13 @@ def write_xml(node_list, edge_list):
         edge.setAttribute("target", item["target"])
         edges.appendChild(edge)
 
-    with open("data/graph.xml", "w", encoding="utf-8") as f:
+
+    with open("front/data/graph.xml", "w", encoding="utf-8") as f:
         doc.writexml(f, indent='\t', addindent='\t', newl='\n', encoding='utf-8')
 
 
 if __name__ == '__main__':
-    file_path = 'data/graph.json'
+    file_path = 'front/data/graph.json'
     # file_path = '../news/output/机票价格涨价为哪般？.json'
     node_list, edge_list = json2graph(file_path)
     print("Get {} nodes and {} edges...".format(str(len(node_list)), str(len(edge_list))))
