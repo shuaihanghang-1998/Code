@@ -5,7 +5,11 @@
     <ProjectGuid>19ec751a-7fee-4ae4-b865-144efaa4c672</ProjectGuid>
     <ProjectHome>.</ProjectHome>
 <<<<<<< HEAD
+<<<<<<< HEAD
     <StartupFile>templateNER-main\train.py</StartupFile>
+=======
+    <StartupFile>front\makeXML.py</StartupFile>
+>>>>>>> c899da9360e54fdead192d82fd22ded47e416092
 =======
     <StartupFile>front\makeXML.py</StartupFile>
 >>>>>>> c899da9360e54fdead192d82fd22ded47e416092
