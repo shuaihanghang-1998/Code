@@ -3,6 +3,121 @@ from transformers import BartForConditionalGeneration, BartTokenizer, BartConfig
 import torch
 import time
 import math
+import csv
+
+
+class InputExample():
+    def __init__(self, input_TXT, event1, event2, labels):
+        self.input_TXT = input_TXT
+        self.event1 = event1
+        self.event2 = event2
+        self.labels = labels
+
+
+def predict_relation(input_TXT, event1, event2):  # 预测一个句子中两个事件的关系
+    input_TXT = [input_TXT]*3
+    input_ids = tokenizer(input_TXT, return_tensors='pt')['input_ids']
+    model.to(device)
+    template_list = [" 原 因 事 件 。", " 后 续 事 件 。", "无 关 事 件 。"]
+    relation_dict = {0: '因果关系', 1: '顺承关系', 2: 'NONE'}
+    temp_list = []
+    for k in range(len(template_list)):
+        temp_list.append(event1+"是"+event2+"的"+template_list[k])
+
+    output_ids = tokenizer(temp_list, return_tensors='pt',
+                           padding=True, truncation=True)['input_ids']
+    output_ids[:, 0] = 2
+    output_length_list = [0]*3
+
+    base_length = ((tokenizer(temp_list[2], return_tensors='pt', padding=True, truncation=True)[
+                   'input_ids']).shape)[1] - 4
+    print(((tokenizer(temp_list[i], return_tensors='pt',
+          padding=True, truncation=True)['input_ids']).shape)[1])
+    output_length_list[0:2] = [base_length]*3
+    output_length_list[1] += 1
+
+    score = [1]*3
+    with torch.no_grad():
+        output = model(input_ids=input_ids.to(
+            device), decoder_input_ids=output_ids[:, :output_ids.shape[1] - 4].to(device))[0]
+        for i in range(output_ids.shape[1] - 5):
+            # print(input_ids.shape)
+            logits = output[:, i, :]
+            logits = logits.softmax(dim=1)
+            # values, predictions = logits.topk(1,dim = 1)
+            logits = logits.to('cpu').numpy()
+            # print(output_ids[:, i+1].item())
+            for j in range(0, 3):
+                if i < output_length_list[j]:
+                    score[j] = score[j] * logits[j][int(output_ids[j][i + 1])]
+
+    return relation_dict[(score.index(max(score)))]
+
+
+def cal_time(since):
+    now = time.time()
+    s = now - since
+    m = math.floor(s / 60)
+    s -= m * 60
+    return '%dm %ds' % (m, s)
+
+
+tokenizer = BartTokenizer.from_pretrained('facebook/bart-large')
+# input_TXT = "Japan began the defence of their Asian Cup title with a lucky 2-1 win against Syria in a Group C championship match on Friday ."
+model = BartForConditionalGeneration.from_pretrained('./checkpoint-3060')
+# model = BartForConditionalGeneration.from_pretrained('../dialogue/bart-large')
+model.eval()
+model.config.use_cache = False
+# input_ids = tokenizer(input_TXT, return_tensors='pt')['input_ids']
+# print(input_ids)
+device = torch.device("cuda:1" if torch.cuda.is_available() else "cpu")
+file_path = './conll2003/test.txt'
+examples = []
+
+
+f = open('numbers.csv', 'r')
+with f:
+    reader = csv.reader(f)
+    for row in reader:
+        input_TXT = row['input_text']
+        event1 = row['event1']
+        event2 = row['event2']
+        labels = row['labels']
+    examples.append(InputExample(input_TXT=input_TXT,
+                    event1=event1, event2=event2, labels=labels))
+
+
+trues_list = []
+preds_list = []
+num_01 = len(examples)
+num_point = 0
+start = time.time()
+for example in examples:
+    preds_list.append(predict_relation(examples.input_TXT,
+                      examples.event1, examples.event2))
+    trues_list.append(example.labels)
+    print('%d/%d (%s)' % (num_point+1, num_01, cal_time(start)))
+    print('Pred:', preds_list[num_point])
+    print('Gold:', trues_list[num_point])
+    num_point += 1
+
+results = {
+    "f1": f1_score(trues_list, preds_list)
+}
+print(results["f1"])
+for num_point in range(len(preds_list)):
+    preds_list[num_point] = ' '.join(preds_list[num_point]) + '\n'
+    trues_list[num_point] = ' '.join(trues_list[num_point]) + '\n'
+with open('./pred.txt', 'w') as f0:
+    f0.writelines(preds_list)
+with open('./gold.txt', 'w') as f0:
+    f0.writelines(trues_list)
+'''
+from utils_metrics import get_entities_bio, f1_score, classification_report
+from transformers import BartForConditionalGeneration, BartTokenizer, BartConfig
+import torch
+import time
+import math
 
 class InputExample():
     def __init__(self, words, labels):
@@ -162,3 +277,4 @@ with open('./pred.txt', 'w') as f0:
     f0.writelines(preds_list)
 with open('./gold.txt', 'w') as f0:
     f0.writelines(trues_list)
+'''
