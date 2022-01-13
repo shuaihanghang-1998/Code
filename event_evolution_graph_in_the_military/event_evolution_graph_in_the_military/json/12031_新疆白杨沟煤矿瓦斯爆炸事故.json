@@ -1,0 +1,137 @@
+{
+  "event_element": [
+    {
+      "event_sentence": "2013年12月13日凌晨1时26分，新疆昌吉回族自治州呼图壁县雀尔沟镇白杨沟煤矿发生一起瓦斯爆炸事故。",
+      "event_graph": [
+        {
+          "child_event_id": "e01",
+          "trigger": "发生",
+          "trigger_object": "爆炸事故",
+          "object_attri": "瓦斯",
+          "time": "2013年12月13日凌晨1时26分",
+          "time_align": "2013-12-13-01-26",
+          "location": "新疆昌吉回族自治州呼图壁县雀尔沟镇",
+          "organization": "",
+          "person": "",
+          "subject_attri": "白杨沟",
+          "trigger_subject": "煤矿"
+        }
+      ]
+    },
+    {
+      "event_sentence": "此次事件中，12人安全出井，22人被困井下。",
+      "event_graph": [
+        {
+          "child_event_id": "e02",
+          "trigger": "出井",
+          "trigger_object": "",
+          "object_attri": "",
+          "time": "",
+          "time_align": "2013-12-13-01-26",
+          "location": "新疆昌吉回族自治州呼图壁县雀尔沟镇",
+          "organization": "",
+          "person": "",
+          "subject_attri": "12",
+          "trigger_subject": "人"
+        },
+        {
+          "child_event_id": "e03",
+          "trigger": "被-困",
+          "trigger_object": "井下",
+          "object_attri": "",
+          "time": "",
+          "time_align": "2013-12-13-01-26",
+          "location": "新疆昌吉回族自治州呼图壁县雀尔沟镇",
+          "organization": "",
+          "person": "",
+          "subject_attri": "22",
+          "trigger_subject": "人"
+        }
+      ]
+    },
+    {
+      "event_sentence": "截至15时30分，事故现场被困井下人员中1人获救，其余21人确定遇难。",
+      "event_graph": [
+        {
+          "child_event_id": "e04",
+          "trigger": "获救",
+          "trigger_object": "",
+          "object_attri": "",
+          "time": "15时30分",
+          "time_align": "2013-12-13-15-30",
+          "location": "新疆昌吉回族自治州呼图壁县雀尔沟镇",
+          "organization": "",
+          "person": "",
+          "subject_attri": "1",
+          "trigger_subject": "人"
+        },
+        {
+          "child_event_id": "e05",
+          "trigger": "确定",
+          "trigger_object": "遇难",
+          "object_attri": "",
+          "time": "15时30分",
+          "time_align": "2013-12-13-15-30",
+          "location": "新疆昌吉回族自治州呼图壁县雀尔沟镇",
+          "organization": "",
+          "person": "",
+          "subject_attri": "21",
+          "trigger_subject": "人"
+        }
+      ]
+    },
+    {
+      "event_sentence": "新疆维吾尔自治区应急办正在积极开展善后处置和事故调查工作。",
+      "event_graph": [
+        {
+          "child_event_id": "e06",
+          "trigger": "开展",
+          "trigger_object": "善后处置",
+          "object_attri": "",
+          "time": "",
+          "time_align": "",
+          "location": "新疆维吾尔自治区",
+          "organization": "新疆维吾尔自治区应急办",
+          "person": "",
+          "subject_attri": "新疆维吾尔自治区",
+          "trigger_subject": "应急办"
+        },
+        {
+          "child_event_id": "e07",
+          "trigger": "开展",
+          "trigger_object": "事故调查工作",
+          "object_attri": "",
+          "time": "",
+          "time_align": "",
+          "location": "新疆维吾尔自治区",
+          "organization": "新疆维吾尔自治区应急办",
+          "person": "",
+          "subject_attri": "新疆维吾尔自治区",
+          "trigger_subject": "应急办"
+        }
+      ]
+    }
+  ],
+  "event_relation": {
+    "e01": {
+      "e02": "顺承关系"
+    },
+    "e02": {
+      "e03": "并列关系",
+      "e04": "顺承关系"
+    },
+    "e03": {
+      "e04": "顺承关系"
+    },
+    "e04": {
+      "e05": "并列关系",
+      "e06": "顺承关系"
+    },
+    "e05": {
+      "e06": "顺承关系"
+    },
+    "e06": {
+      "e07": "并列关系"
+    }
+  }
+}
