@@ -1,4 +1,0 @@
-pyltp==0.2.1
-allennlp
-torch
-gensim
