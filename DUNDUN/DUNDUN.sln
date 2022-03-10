@@ -1,0 +1,23 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31019.35
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "DUNDUN", "DUNDUN\DUNDUN.pyproj", "{7F60B224-CCE7-4C4D-84C1-6878AB3FE557}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7F60B224-CCE7-4C4D-84C1-6878AB3FE557}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7F60B224-CCE7-4C4D-84C1-6878AB3FE557}.Release|Any CPU.ActiveCfg = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E61D251D-DEC2-4901-B8DB-FCC168C96306}
+	EndGlobalSection
+EndGlobal

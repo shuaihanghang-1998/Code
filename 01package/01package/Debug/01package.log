@@ -1,6 +1,0 @@
-﻿  源.cpp
-D:\Code\01package\01package\源.cpp(49,39): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
-D:\Code\01package\01package\源.cpp(44,5): warning C4996: 'scanf': This function or variable may be unsafe. Consider using scanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-D:\Code\01package\01package\源.cpp(47,9): warning C4996: 'scanf': This function or variable may be unsafe. Consider using scanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-D:\Code\01package\01package\源.cpp(69,39): warning C4244: “+=”: 从“float”转换到“int”，可能丢失数据
-  01package.vcxproj -> D:\Code\01package\Debug\01package.exe
