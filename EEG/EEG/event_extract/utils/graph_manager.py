@@ -88,8 +88,11 @@ def get_news_graph(graph_controller, news_content):
 
         # TODO: 获取句子时间信息方法改善，当简单的使用第一个逗号前面的部分作为时间信息
         event_time = None
-        if '，' in sentence:
-            event_time = sentence.split('，')[0]
+        # event_time_str=''
+        # for w in analyse['basic']:
+        #     if w['pos'] == 'nt':          
+        #         event_time_str += w['word']
+        #         event_time = event_time_str
 
         # 获取句子位置信息
         event_position = get_entity_patterns(analy=analyse,
@@ -107,8 +110,8 @@ def get_news_graph(graph_controller, news_content):
         
         for role in analyse['role']:
             # 判定为不重要的trigger 不予考虑
-            # if trigger_rank(analyse, role['index']) <= 1:
-            #     continue
+            if trigger_rank(analyse, role['index']) <= 2:
+                continue
 
             # 获取句子机构信息（A0，A1）
             # 获取句子人物信息（A0，A1）
@@ -138,6 +141,13 @@ def get_news_graph(graph_controller, news_content):
                                                               entity_type='Nh',
                                                               start_pos=relation['start'],
                                                               end_pos=relation['end'])
+
+                if relation['name'] == 'TMP':
+                    event_time_str=''
+                    for i in range(relation['start'],relation['end']+1):
+                        w = analyse['basic'][i]
+                        event_time_str += w['word']
+                        event_time = event_time_str
 
             # 分析trigger元素，基于trigger role以及其他的句法分析结果：ATT、VOB、COO、SVB等关系
             trigger_pattern, first_index, last_index = get_trigger_pattern(analyse, role['index'])
@@ -178,15 +188,17 @@ if __name__ == '__main__':
                    "该事件造成4人死亡（一位母亲和三个未成年孩子）。" \
                    "2017年7月1日，根据杭州市人民检察院批准逮捕决定，杭州市公安局对涉嫌放火罪、盗窃罪的犯罪嫌疑人莫焕晶依法执行逮捕。" \
                    "2017年8月21日，杭州市检察院依法对被告人莫焕晶提起公诉。" \
-                   "2017年12月21日上午9时许，杭州“蓝色钱江放火案”在浙江省杭州市中级人民法院公开开庭审理。法庭宣布延期审理。" \
+                   "2017年12月21日上午9时，杭州“蓝色钱江放火案”在浙江省杭州市中级人民法院公开开庭审理。法庭宣布延期审理。" \
                    "2017年12月25日，杭州市公安消防局再次收到受害人家属林某某提出的政府信息公开申请，杭州市公安消防局局将根据《中华人民共和国政府信息公开条例》的有关规定，在法定期限内做出答复。" \
                    "2018年2月9日，案件一审公开宣判，被告人莫焕晶被判死刑。 " \
                    "2月24日，从浙江省高级人民法院获悉，莫焕晶已向该院提起上诉。" \
-                   "5月17日9时，莫焕晶上诉开庭审理；下午17时20分许，庭审结束，审判长宣布择期宣判。 " \
+                   "5月17日9时，开庭审理莫焕晶的上诉；下午17时20分许，庭审结束，审判长宣布择期宣判。 " \
                    "6月4日，案件作出二审裁定：驳回上诉，维持原判。" \
                    "2018年9月21日，经最高人民法院核准，莫焕晶被执行死刑。"
     graph_counter = GraphController()
     news_graph_count = get_news_graph(graph_counter, news_content)
+    print("news_graph_count")
+    print(news_graph_count.graph)
     with open("D:/Code/EEG/EEG/event_extract/front/data/graph.json", 'w', encoding='utf-8') as f:
         f.write(json.dumps(news_graph_count.graph, ensure_ascii=False))
 

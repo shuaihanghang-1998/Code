@@ -3,8 +3,9 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>9a542d60-1cee-44d2-80cb-1f1cf583f935</ProjectGuid>
-    <ProjectHome>.</ProjectHome>
-    <StartupFile>event_extract\utils\graph_manager.py</StartupFile>
+    <ProjectHome>
+    </ProjectHome>
+    <StartupFile>event_extract\front\makeXML.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
